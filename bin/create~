@@ -1,0 +1,286 @@
+#! /bin/bash
+#       Licensed to the Apache Software Foundation (ASF) under one
+#       or more contributor license agreements.  See the NOTICE file
+#       distributed with this work for additional information
+#       regarding copyright ownership.  The ASF licenses this file
+#       to you under the Apache License, Version 2.0 (the
+#       "License"); you may not use this file except in compliance
+#       with the License.  You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#       Unless required by applicable law or agreed to in writing,
+#       software distributed under the License is distributed on an
+#       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#       KIND, either express or implied.  See the License for the
+#       specific language governing permissions and limitations
+#       under the License.
+#
+# create a cordova/android project
+# 
+# USAGE
+#   ./create [path package activity]
+#
+set -e
+
+if [ -z "$1" ] || [ "$1" == "-h" ]
+then
+    echo "Usage: $0 <path_to_new_project> <package_name> <project_name>"
+    echo "Make sure the Android SDK tools folder is in your PATH!"
+    echo "    <path_to_new_project>: Path to your new Cordova iOS project"
+    echo "    <package_name>: Package name, following reverse-domain style convention"
+    echo "    <project_name>: Project name"
+    exit 0
+fi
+
+BUILD_PATH="$( cd "$( dirname "$0" )/.." && pwd )"
+VERSION=$(cat "$BUILD_PATH"/VERSION)
+
+echo "BUILD_PATH="$BUILD_PATH 
+
+PROJECT_PATH="${1:-'./example'}"
+PACKAGE=${2:-"org.apache.cordova.example"}
+ACTIVITY=${3:-"cordovaExample"}
+
+# clobber any existing example
+if [ -d "$PROJECT_PATH" ]
+then
+    echo "Project already exists! Delete and recreate"
+    exit 1
+fi
+
+# cleanup after exit and/or on error
+function on_exit {
+    # [ -f "$BUILD_PATH"/framework/libs/commons-codec-1.6.jar ] && rm "$BUILD_PATH"/framework/libs/commons-codec-1.6.jar
+    # [ -d "$BUILD_PATH"/framework/libs ] && rmdir "$BUILD_PATH"/framework/libs
+    if [ -f "$BUILD_PATH"/framework/assets/www/cordova-$VERSION.js ]
+    then
+        rm "$BUILD_PATH"/framework/assets/www/cordova-$VERSION.js
+    fi
+    if [ -f "$BUILD_PATH"/framework/cordova-$VERSION.jar ]
+    then
+        rm "$BUILD_PATH"/framework/cordova-$VERSION.jar
+    fi
+}
+
+function createAppInfoJar {
+    pushd "$BUILD_PATH"/bin/templates/cordova/ApplicationInfo > /dev/null
+    javac ApplicationInfo.java
+    jar -cfe ../appinfo.jar ApplicationInfo ApplicationInfo.class
+    popd > /dev/null
+}
+
+function on_error {
+    echo "An unexpected error occurred: $previous_command exited with $?"
+    echo "Deleting project..."
+    [ -d "$PROJECT_PATH" ] && rm -rf "$PROJECT_PATH"
+    exit 1
+}
+
+function replace {
+    local pattern=$1
+    local filename=$2
+    # Mac OS X requires -i argument
+    if [[ "$OSTYPE" =~ "darwin" ]]
+    then
+        /usr/bin/sed -i '' -e $pattern "$filename"
+    elif [[ "$OSTYPE" =~ "linux" ]]
+    then
+        /bin/sed -i -e $pattern "$filename"
+    fi
+}
+
+# we do not want the script to silently fail
+trap 'previous_command=$this_command; this_command=$BASH_COMMAND' DEBUG
+trap on_error ERR
+trap on_exit EXIT
+
+ANDROID_BIN="${ANDROID_BIN:=$( which android )}"
+PACKAGE_AS_PATH=$(echo $PACKAGE | sed 's/\./\//g')
+echo "package_as_path:"$PACKAGE_AS_PATH
+ACTIVITY_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/$ACTIVITY.java
+
+
+
+# create new project other package file start ================================================= 
+mkdir  -p "$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils #create package/utils file
+mkdir  -p "$PROJECT_PATH"/src/$PACKAGE_AS_PATH/domain # create package/domain file
+mkdir  -p "$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin # create package/plugin file
+
+# end ====================================================================================
+
+# define myself .java path start====================================
+
+GUIDE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/Guide.java
+GUIDEADAPTER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/GuidePagerAdapter.java
+YOUDAOAPPLICATION_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/YouDaoApplication.java
+#SPLASHIMAGE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/SpalshImage.java
+# SHARE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/Share.java
+SHAREUTILS_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/ShareUtil.java
+DEVIDEUTILS_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/DeviceUtils.java
+NETWORKDIALOG_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/NetWorkUtils.java
+ASYNCIMAGELODER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/AsyncImageLoader.java
+SHAREINFO_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/domain/ShareInfo.java
+SHARE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/Share.java
+UPDATE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/CheckVersion.java
+ALARMCLOCK_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AlarmClock.java
+ALARMHELPER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AlarmHelper.java
+ALARMOPTION_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AlarmOptions.java
+ALARMRECEIVER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AlarmReceiver.java
+ALARMRESTOREONBOOT_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AlarmRestoreOnBoot.java
+ALARMRECORDERMANAGER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/AudioRecorderManager.java
+TOAST_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/Messages.java
+GETUUID_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/GetUUID.java
+CAPTRUESOUND_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/CaptureSound.java
+STRING_XML_PATH="$PROJECT_PATH"/res/values/strings.xml
+
+
+
+
+# end ===============================================================
+MANIFEST_PATH="$PROJECT_PATH"/AndroidManifest.xml
+
+TARGET=$("$ANDROID_BIN" list targets | grep id: | tail -1 | cut -f 2 -d ' ' )
+API_LEVEL=$("$ANDROID_BIN" list target | grep "API level:" | tail -n 1 | cut -f 2 -d ':' | tr -d ' ')
+
+# check that build targets exist
+if [ -z "$TARGET" ] || [ -z "$API_LEVEL" ]
+then
+    echo "No Android Targets are installed. Please install at least one via the android SDK"
+    exit 1
+fi
+
+# if this a distribution release no need to build a jar
+if [ ! -e "$BUILD_PATH"/cordova-$VERSION.jar ] && [ -d "$BUILD_PATH"/framework ]
+then
+    # update the cordova-android framework for the desired target
+    "$ANDROID_BIN" update project --target $TARGET --path "$BUILD_PATH"/framework &> /dev/null
+
+    if [ ! -e "$BUILD_PATH"/framework/libs/commons-codec-1.7.jar ]; then
+        # Use curl to get the jar (TODO: Support Apache Mirrors)
+        curl -OL http://archive.apache.org/dist/commons/codec/binaries/commons-codec-1.7-bin.zip &> /dev/null
+        unzip commons-codec-1.7-bin.zip &> /dev/null
+        mkdir -p "$BUILD_PATH"/framework/libs
+        cp commons-codec-1.7/commons-codec-1.7.jar "$BUILD_PATH"/framework/libs
+        # cleanup yo
+        rm commons-codec-1.7-bin.zip && rm -rf commons-codec-1.7
+    fi
+
+    # compile cordova.js and cordova.jar
+    pushd "$BUILD_PATH"/framework > /dev/null
+    ant jar > /dev/null
+    popd > /dev/null
+fi
+
+# create new android project
+"$ANDROID_BIN" create project --target $TARGET --path "$PROJECT_PATH" --package $PACKAGE --activity $ACTIVITY &> /dev/null
+
+# copy project template
+cp -r "$BUILD_PATH"/bin/templates/project/assets "$PROJECT_PATH"
+cp -r "$BUILD_PATH"/bin/templates/project/res "$PROJECT_PATH"
+
+# copy cordova.js, cordova.jar and res/xml
+if [ -d "$BUILD_PATH"/framework ]
+then
+   # cp -r "$BUILD_PATH"/framework/res/xml "$PROJECT_PATH"/res
+#    cp "$BUILD_PATH"/framework/assets/www/cordova-$VERSION.js "$PROJECT_PATH"/assets/www/cordova-$VERSION.js
+  #  cp "$BUILD_PATH"/framework/cordova-$VERSION.jar "$PROJECT_PATH"/libs/cordova-$VERSION.jar
+#===========================================================	start
+echo "cordova.jar if ="$BUILD_PATH/framework/cordova-$VERSION.jar
+
+	cp -rf "$BUILD_PATH"/bin/templates/project/libs/ "$PROJECT_PATH"/
+#===========================================================end
+else
+    cp -r "$BUILD_PATH"/xml "$PROJECT_PATH"/res/xml
+    cp "$BUILD_PATH"/cordova-$VERSION.js "$PROJECT_PATH"/assets/www/cordova-$VERSION.js
+    cp "$BUILD_PATH"/cordova-$VERSION.jar "$PROJECT_PATH"/libs/cordova-$VERSION.jar
+
+#====================================================
+	echo "cordova.jar else ="$BUILD_PATH/cordova-$VERSION.jar
+#================================================
+fi
+
+# interpolate the activity name and package
+#cp "$BUILD_PATH"/bin/templates/project/Activity.java "$ACTIVITY_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/DevActivity.java "$ACTIVITY_PATH"
+
+# copy myself .java  start ==============================================  
+
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/Guide.java "$GUIDE_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/GuidePagerAdapter.java "$GUIDEADAPTER_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/YouDaoApplication.java "$YOUDAOAPPLICATION_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/SpalshImage.java "$SPLASHIMAGE_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/Share.java "$SHARE_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AlarmClock.java "$ALARMCLOCK_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AlarmHelper.java "$ALARMHELPER_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AlarmOptions.java "$ALARMOPTION_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AlarmReceiver.java "$ALARMRECEIVER_PATH"
+#cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AlarmRestoreOnBoot.java "$ALARMRESTOREONBOOT_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/CheckVersion.java "$UPDATE_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/CaptureSound.java "$CAPTRUESOUND_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/AudioRecorderManager.java "$ALARMRECORDERMANAGER_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/GetUUID.java "$GETUUID_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/Messages.java "$TOAST_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/ShareUtil.java "$SHAREUTILS_PATH" 
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/DeviceUtils.java "$DEVIDEUTILS_PATH" 
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/NetWorkUtils.java "$NETWORKDIALOG_PATH" 
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/AsyncImageLoader.java "$ASYNCIMAGELODER_PATH"   
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/domain/ShareInfo.java "$SHAREINFO_PATH"
+
+
+# end ==============================
+
+
+
+
+
+
+
+
+
+replace "s/DevActivity/${ACTIVITY}/g" "$ACTIVITY_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$ACTIVITY_PATH"
+
+#================================replace the temp package name to create new porject package  start
+replace "s/com.youdao.dev/${PACKAGE}/g" "$GUIDE_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$GUIDEADAPTER_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$SHARE_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$SHAREUTILS_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$SHAREINFO_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$ASYNCIMAGELODER_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMCLOCK_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMHELPER_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMOPTION_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMRECEIVER_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMRESTOREONBOOT_PATH"
+#replace "s/com.youdao.dev/${PACKAGE}/g" "$ALARMRECORDERMANAGER_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$CAPTRUESOUND_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$UPDATE_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$YOUDAOAPPLICATION_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$GETUUID_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$DEVIDEUTILS_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$NETWORKDIALOG_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$TOAST_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$PROJECT_PATH"/res/xml/config.xml
+replace "s/dev/${ACTIVITY}/g" "$STRING_XML_PATH"
+
+replace "s/DevActivity/${ACTIVITY}/g" "$GUIDE_PATH"
+
+#=============================replace end
+
+cp "$BUILD_PATH"/bin/templates/project/AndroidManifest.xml "$MANIFEST_PATH"
+replace "s/DevActivity/${ACTIVITY}/g" "$MANIFEST_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$MANIFEST_PATH"
+replace "s/17/${API_LEVEL}/g" "$MANIFEST_PATH"
+
+# creating cordova folder and copying run/build/log/launch scripts
+mkdir "$PROJECT_PATH"/cordova
+createAppInfoJar
+cp -rf "$BUILD_PATH"/bin/templates/cordova/   "$PROJECT_PATH"/cordova/
+#cp "$BUILD_PATH"/bin/templates/cordova/appinfo.jar "$PROJECT_PATH"/cordova/appinfo.jar
+#cp "$BUILD_PATH"/bin/templates/cordova/cordova "$PROJECT_PATH"/cordova/cordova
+#cp "$BUILD_PATH"/bin/templates/cordova/build "$PROJECT_PATH"/cordova/build
+#cp "$BUILD_PATH"/bin/templates/cordova/release "$PROJECT_PATH"/cordova/release
+#cp "$BUILD_PATH"/bin/templates/cordova/clean "$PROJECT_PATH"/cordova/clean
+#cp "$BUILD_PATH"/bin/templates/cordova/log "$PROJECT_PATH"/cordova/log
+#cp "$BUILD_PATH"/bin/templates/cordova/run "$PROJECT_PATH"/cordova/run
