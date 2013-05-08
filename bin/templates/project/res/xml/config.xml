@@ -29,11 +29,14 @@
     <!-- <access origin="https://example.com" subdomains="true" /> such as above, but including subdomains, such as www -->
     <access origin=".*"/>
 
+    <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
+    <content src="index.html" />
+
     <log level="DEBUG"/>
     <preference name="useBrowserHistory" value="true" />
+    <preference name="exit-on-suspend" value="false" />
 <plugins>
     <plugin name="App" value="org.apache.cordova.App"/>
-    <plugin name="Activity" value="org.apache.cordova.test.ActivityPlugin"/>
     <plugin name="Geolocation" value="org.apache.cordova.GeoBroker"/>
     <plugin name="Device" value="org.apache.cordova.Device"/>
     <plugin name="Accelerometer" value="org.apache.cordova.AccelListener"/>
@@ -52,6 +55,20 @@
     <plugin name="Echo" value="org.apache.cordova.Echo" />
     <plugin name="Globalization" value="org.apache.cordova.Globalization"/>
     <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser"/>
+
+      <!-- 配置插件 -->
+   <!-- <plugin name="AlarmClock" value="com.youdao.dev.plugin.AlarmClock"/> --> 
+    <!-- 分享功能插件 -->
+    <plugin name="Share" value="com.youdao.dev.plugin.Share"/>
+    <plugin name="CaptureSound" value="com.youdao.dev.plugin.CaptureSound"/>
+    
+    <!-- 应用检查更新插件 -->
+    <plugin name="CheckVersion" value="com.youdao.dev.plugin.CheckVersion"/>
+    <!-- 获取设备UUID插件 -->
+    <plugin name="GetUUID" value="com.youdao.dev.plugin.GetUUID"/>
+    <!-- 消息Toast插件 -->
+    
+     <plugin name="Messages" value="com.youdao.dev.plugin.Messages"/>
 </plugins>
 </cordova>
 
