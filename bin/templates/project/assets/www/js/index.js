@@ -47,3 +47,91 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+   function record() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "CaptureSound", "audioRecord", ["10"]);
+            }
+
+        
+            function stop() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "CaptureSound", "audioStop", [""]);
+            }
+
+    
+            function play() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "CaptureSound", "play", [""]);
+            }
+
+        
+            function share() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "Share", "share", ["你好！","http://www.baidu.com/img/shouye_b5486898c692066bd2cbaeda86d74448.gif"]);
+
+            }
+
+        
+            function registerwx() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "Share", "registerWeixin", ["wx781a582436c6b974"]);
+
+            }
+            
+               function update() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "CheckVersion", "checkVersion", [""]);
+
+            }
+            
+            function getuuid() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "GetUUID", "getUUID", [""]);
+
+            }
+                 function toast() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "Messages", "showMsg", ["测试显示消息插件"]);
+
+            }
