@@ -104,6 +104,17 @@ var app = {
 
             }
             
+             function registerum() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "Share", "registerUmeng", ["508a19595270157a6f00005e"]);
+
+            }
+            
                function update() {
                 cordova.exec(function(winParam) {
                     alert(winParam);

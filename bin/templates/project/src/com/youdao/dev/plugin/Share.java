@@ -6,6 +6,8 @@ import org.apache.cordova.api.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.widget.Toast;
+
 import com.youdao.dev.domain.ShareInfo;
 import com.youdao.dev.utils.ShareUtil;
 
@@ -19,6 +21,7 @@ public class Share extends CordovaPlugin {
 	public static final String REGISTERUM = "registerUmeng" ; 
 	public static final String REGISTERWX = "registerWeixin" ;
 	public static final String SHARE = "share" ;
+	private String umengID ;
 	
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -31,12 +34,32 @@ public class Share extends CordovaPlugin {
 			registerWx(wxAppID,callbackContext) ;
 			return true ;
 		}else if(SHARE.equals(action)){
-			ShareInfo(shareInfo,callbackContext) ;
+			if(umengID==null || umengID.equals("")){ //如果key不为空的话那就注册微信
+				Toast.makeText(this.cordova.getActivity(),"你还没有注册友盟，清先注册", Toast.LENGTH_SHORT).show() ;
+			}else{
+				ShareInfo(shareInfo,callbackContext) ;
+			}
 			return true ;
 		}else if(REGISTERUM.equals(action)){
-			
+			umengID = args.getString(0) ; //取得js传过来的注册友盟应用的APPKEY
+			registerUmeng(umengID,callbackContext) ;
 		}
 		return false ;
+	}
+
+	/**
+	 * 
+	 * @param umengID
+	 * @param callbackContext
+	 */
+	private void registerUmeng(String umengID, CallbackContext callbackContext) {
+		if(umengID==null || umengID.equals("")){ //如果key不为空的话那就注册友盟
+			callbackContext.error("必须传入友盟的appkey") ;
+		}else{
+			ShareUtil.createUmeng(cordova.getActivity(), umengID) ;
+			callbackContext.success("注册友盟成功") ;
+			
+		}
 	}
 
 	/**
@@ -62,7 +85,7 @@ public class Share extends CordovaPlugin {
 //			Class c = Class.forName(mainActivityName);
 //			Method m = c.getMethod("ShareInfo", ShareInfo.class);
 //			m.invoke(c,shareInfo);
-
+			
 			Runnable runnable = new Runnable() {
 				
 				@Override
@@ -71,7 +94,7 @@ public class Share extends CordovaPlugin {
 					shareUtil.share(cordova.getActivity(),shareInfo.getShareText(), shareInfo.getShareImageUrl()) ;
 				}
 			};
-			cordova.getActivity().runOnUiThread(runnable);  //在UI线程运行
+			cordova.getActivity().runOnUiThread(runnable);  //在UI线程运行  友盟分享一定要在UI线诚中运行。
 			
 		} catch (Exception e) {
 			e.printStackTrace() ;

@@ -276,7 +276,7 @@ replace "s/17/${API_LEVEL}/g" "$MANIFEST_PATH"
 # creating cordova folder and copying run/build/log/launch scripts
 mkdir "$PROJECT_PATH"/cordova
 createAppInfoJar
-cp -rf "$BUILD_PATH"/bin/templates/cordova/   "$PROJECT_PATH"/cordova/
+cp -rf "$BUILD_PATH"/bin/templates/cordova/   "$PROJECT_PATH"/
 #cp "$BUILD_PATH"/bin/templates/cordova/appinfo.jar "$PROJECT_PATH"/cordova/appinfo.jar
 #cp "$BUILD_PATH"/bin/templates/cordova/cordova "$PROJECT_PATH"/cordova/cordova
 #cp "$BUILD_PATH"/bin/templates/cordova/build "$PROJECT_PATH"/cordova/build
