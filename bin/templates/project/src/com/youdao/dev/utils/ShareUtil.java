@@ -1,5 +1,6 @@
-
 package com.youdao.dev.utils;
+
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +26,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.UMShareMsg;
-import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -48,7 +48,6 @@ public class ShareUtil {
 	private Context context ;
 	private  UMSocialService controller ;
 	private static String wxAppID ;
-//	private static String umengID ;
 	/**
 	 * 创建和注册AppID到微信
 	 * @param context
@@ -69,16 +68,6 @@ public class ShareUtil {
 			@Override
 			public void onReq(BaseReq arg0) {}
 		});
-	}
-	/**
-	 * 
-	 * @param context
-	 * @param umengID
-	 */
-	public static void createUmeng(Activity context,String umengID){
-		SocializeConstants.APPKEY = umengID;
-//		ShareUtil.umengID = umengID ;
-		//SocializeConstants.APPKEY = "508a19595270157a6f00005e";
 	}
 	/**
 	 * 解决严格模式 采用异步
@@ -135,11 +124,8 @@ public class ShareUtil {
 				}).start() ;
 				
 		}
-//			if(ShareUtil.umengID !=null){ //如果注册了友盟，才打开分享页面 //否则提示没有注册友盟
-				controller.openShare(context, false);
-//			}else{
-//				Toast.makeText(context,"你还没有注册友盟，清先注册", Toast.LENGTH_SHORT).show() ;
-//		}
+		controller.openShare(context, false);
+		
 		SnsPostListener mSnsListener = new SnsPostListener() {
 
 			@Override
@@ -165,9 +151,7 @@ public class ShareUtil {
 
 			}
 		};
-		
-			controller.registerListener(mSnsListener);
-		
+		controller.registerListener(mSnsListener);
 	}
 	/**
 	 * 添加微信或朋友圈点击事件

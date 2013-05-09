@@ -99,10 +99,10 @@
         </activity>
         <!-- Socialize Activitys End -->
         <!-- umeng appkey -->
-      <!--   <meta-data
+      <meta-data
             android:name="UMENG_APPKEY"
             android:value="508a19595270157a6f00005e" >
-        </meta-data> -->
+        </meta-data> 
         <!-- umeng update service -->
         <service
             android:name="com.umeng.common.net.DownloadingService"
