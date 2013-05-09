@@ -26,6 +26,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.UMShareMsg;
+import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -48,6 +49,7 @@ public class ShareUtil {
 	private Context context ;
 	private  UMSocialService controller ;
 	private static String wxAppID ;
+	//private static String uMengID ;
 	/**
 	 * 创建和注册AppID到微信
 	 * @param context
@@ -68,6 +70,11 @@ public class ShareUtil {
 			@Override
 			public void onReq(BaseReq arg0) {}
 		});
+	}
+	
+	public static void  createUmeng(Activity context,String uMengID){
+		SocializeConstants.APPKEY = uMengID;
+		//ShareUtil.uMengID = uMengID ;
 	}
 	/**
 	 * 解决严格模式 采用异步
@@ -124,8 +131,9 @@ public class ShareUtil {
 				}).start() ;
 				
 		}
-		controller.openShare(context, false);
-		
+		//	if(ShareUtil.uMengID !=null){
+				controller.openShare(context, false);
+		//	}
 		SnsPostListener mSnsListener = new SnsPostListener() {
 
 			@Override
