@@ -5,6 +5,8 @@ import org.apache.cordova.api.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.util.Log;
+
 import com.youdao.dev.utils.DeviceUtils;
 
 /**
@@ -16,6 +18,7 @@ import com.youdao.dev.utils.DeviceUtils;
 public class GetUUID extends CordovaPlugin {
 	
 	public static final String GETUUID = "getUUID" ;
+	private static final String TAG = "GetUUID";
 
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -34,6 +37,8 @@ public class GetUUID extends CordovaPlugin {
 		String uuid = DeviceUtils.getUUID(this.cordova.getActivity()) ;
 		if(uuid !=null){
 			callbackContext.success("设备的UUID是："+uuid) ;
+		//	JPushInterface.setAliasAndTags(this.cordova.getActivity(), uuid, null);
+			Log.d(TAG, "uuid is " +uuid) ;
 		}else{
 			callbackContext.error("获取设备UUID失败!") ;
 		}

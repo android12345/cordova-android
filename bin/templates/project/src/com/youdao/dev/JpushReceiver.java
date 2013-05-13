@@ -6,10 +6,15 @@ import cn.jpush.android.api.JPushInterface;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 /**
  * @author junjun
+
+ * 如果不定义这个 Receiver，则：
+ * 1) 默认用户会打开主界面
+ * 2) 接收不到自定义消息
  * 自定义广播接收者来拦截推过来的信息或通知
  */
 public class JpushReceiver extends BroadcastReceiver {
@@ -46,6 +51,9 @@ public class JpushReceiver extends BroadcastReceiver {
         //	Intent i = new Intent(context, TestActivity.class);
        // 	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
        // 	context.startActivity(i);
+            Intent i = new Intent(Intent.ACTION_VIEW , Uri.parse("http://www.baidu.com"));
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
         	
         } else {
         	Log.d(TAG, "Unhandled intent - " + intent.getAction());
