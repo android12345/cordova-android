@@ -188,7 +188,7 @@ then
 #===========================================================	start
 echo "cordova.jar if ="$BUILD_PATH/framework/cordova-$VERSION.jar
 
-	cp -rf "$BUILD_PATH"/bin/templates/project/libs/ "$PROJECT_PATH"/
+	cp -rf "$BUILD_PATH"/bin/templates/project/libs "$PROJECT_PATH"/
 #===========================================================end
 else
     cp -r "$BUILD_PATH"/xml "$PROJECT_PATH"/res/xml
@@ -227,6 +227,9 @@ cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/NetWorkUtils.jav
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/AsyncImageLoader.java "$ASYNCIMAGELODER_PATH"   
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/domain/ShareInfo.java "$SHAREINFO_PATH"
 
+
+cp $BUILD_PATH/bin/templates/project/project.properties $PROJECT_PATH/
+cp $BUILD_PATH/bin/templates/project/youdao.key $PROJECT_PATH/
 
 # end ==============================
 
@@ -276,7 +279,7 @@ replace "s/17/${API_LEVEL}/g" "$MANIFEST_PATH"
 # creating cordova folder and copying run/build/log/launch scripts
 mkdir "$PROJECT_PATH"/cordova
 createAppInfoJar
-cp -rf "$BUILD_PATH"/bin/templates/cordova/   "$PROJECT_PATH"/
+cp -rf $BUILD_PATH/bin/templates/cordova $PROJECT_PATH
 #cp "$BUILD_PATH"/bin/templates/cordova/appinfo.jar "$PROJECT_PATH"/cordova/appinfo.jar
 #cp "$BUILD_PATH"/bin/templates/cordova/cordova "$PROJECT_PATH"/cordova/cordova
 #cp "$BUILD_PATH"/bin/templates/cordova/build "$PROJECT_PATH"/cordova/build
