@@ -138,8 +138,8 @@ public class ShareUtil {
 
 			@Override
 			public void onStart() {
-				Toast.makeText(context,
-						"开始分享",Toast.LENGTH_SHORT).show();
+				
+				CommUtils.showMessage("开始分享", context) ;
 			}
 
 			@Override
@@ -147,7 +147,7 @@ public class ShareUtil {
 					SocializeEntity arg2) {
 				
 				if(arg1==200){
-				Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+				CommUtils.showMessage("分享成功", context) ;
 				}else {
 					String eMsg = "";
 					if (arg1 == -101)
@@ -188,7 +188,7 @@ public class ShareUtil {
 			}
 
 				}else{
-					Toast.makeText(context,"你还没有注册微信，清先注册", Toast.LENGTH_SHORT).show() ;
+					CommUtils.showMessage("你还没有注册微信，清先注册", context) ;
 				}
 			}
 
@@ -243,10 +243,10 @@ public class ShareUtil {
 	 */
 	private static void checkInstallwx(final Context context) {
 		if (!api.isWXAppInstalled()) {
-			Toast.makeText(context, "你还没有安装微信", Toast.LENGTH_SHORT).show();
+			CommUtils.showMessage("你还没有安装微信", context) ;
 			return;
 		} else if (!api.isWXAppSupportAPI()) {
-			Toast.makeText(context, "你安装的微信版本不支持当前API", Toast.LENGTH_SHORT).show();
+			CommUtils.showMessage("你安装的微信版本不支持当前API", context) ;
 			return;
 		}
 	}
