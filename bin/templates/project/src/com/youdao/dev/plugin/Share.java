@@ -10,6 +10,7 @@ import org.json.JSONException;
 import android.widget.Toast;
 
 import com.youdao.dev.domain.ShareInfo;
+import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.ShareUtil;
 
 
@@ -36,7 +37,7 @@ public class Share extends CordovaPlugin {
 			return true ;
 		}else if(SHARE.equals(action)){
 			if(uMengID==null || uMengID.equals("")){ 
-				Toast.makeText(this.cordova.getActivity(),"你还没有注册友盟，清先注册", Toast.LENGTH_SHORT).show() ;
+				CommUtils.showMessage("你还没有注册友盟，清先注册", this.cordova.getActivity()) ;
 			}else{//如果key不为空的话那就调用友盟分享功能
 				ShareInfo(shareInfo,callbackContext) ;
 			}

@@ -120,6 +120,7 @@ SHAREUTILS_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/ShareUtil.java
 DEVIDEUTILS_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/DeviceUtils.java
 NETWORKDIALOG_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/NetWorkUtils.java
 ASYNCIMAGELODER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/AsyncImageLoader.java
+COMMUTILS_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/utils/CommUtils.java
 SHAREINFO_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/domain/ShareInfo.java
 SHARE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/Share.java
 UPDATE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/plugin/CheckVersion.java
@@ -224,7 +225,8 @@ cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/plugin/Messages.java "
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/ShareUtil.java "$SHAREUTILS_PATH" 
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/DeviceUtils.java "$DEVIDEUTILS_PATH" 
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/NetWorkUtils.java "$NETWORKDIALOG_PATH" 
-cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/AsyncImageLoader.java "$ASYNCIMAGELODER_PATH"   
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/AsyncImageLoader.java "$ASYNCIMAGELODER_PATH" 
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/utils/CommUtils.java "$COMMUTILS_PATH"   
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/domain/ShareInfo.java "$SHAREINFO_PATH"
 
 
@@ -264,6 +266,7 @@ replace "s/com.youdao.dev/${PACKAGE}/g" "$GETUUID_PATH"
 replace "s/com.youdao.dev/${PACKAGE}/g" "$DEVIDEUTILS_PATH"
 replace "s/com.youdao.dev/${PACKAGE}/g" "$NETWORKDIALOG_PATH"
 replace "s/com.youdao.dev/${PACKAGE}/g" "$TOAST_PATH"
+replace "s/com.youdao.dev/${PACKAGE}/g" "$COMMUTILS_PATH"
 replace "s/com.youdao.dev/${PACKAGE}/g" "$PROJECT_PATH"/res/xml/config.xml
 replace "s/dev/${ACTIVITY}/g" "$STRING_XML_PATH"
 
