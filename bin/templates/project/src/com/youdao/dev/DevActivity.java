@@ -89,8 +89,10 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		addNetWorkReceiver();
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
 			super.loadUrl(Config.getStartUrl(), 5000);
+			cancelFullscreen() ;
 		} else {
 			super.loadUrl(Config.getStartUrl());
+			cancelFullscreen() ;
 		}
 
 	}
@@ -175,12 +177,14 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	}
 
 	// 设置全屏
-	private void setFullScreen() {
+	public void setFullScreen() {
 		getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);// 清除FLAG
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 	}
 
 	@SuppressLint("NewApi")
@@ -274,4 +278,14 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(connectionReceiver, intentFilter);
 	}
+	/**
+	 * 取消全屏方法
+	 */
+	public void cancelFullscreen(){
+		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+		attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setAttributes(attrs);
+		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+	}
+	
 }

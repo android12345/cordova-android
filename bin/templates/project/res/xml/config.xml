@@ -69,6 +69,8 @@
     <!-- 消息Toast插件 -->
     
      <plugin name="Messages" value="com.youdao.dev.plugin.Messages"/>
+     <!-- 拨打电话界面插件 -->
+     <plugin name="Redirect" value="com.youdao.dev.plugin.Redirect"/>
 </plugins>
 </cordova>
 

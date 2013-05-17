@@ -146,3 +146,16 @@ var app = {
                 }, "Messages", "showMsg", ["测试显示消息插件"]);
 
             }
+
+  function callphone() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "Redirect", "callNumber", ["123456789414"]);
+
+            }
+
+
