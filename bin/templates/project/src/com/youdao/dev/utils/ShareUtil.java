@@ -26,7 +26,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.UMShareMsg;
-import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -54,13 +53,13 @@ public class ShareUtil {
 	 * 创建和注册AppID到微信
 	 * @param context
 	 */
-	public static void createWXAPI(Activity context,String wxAppID){
+	public  void createWXAPI(Context context,String wxAppID){
 		//api = WXAPIFactory.createWXAPI(context, "wx79474d05acb6a73b");
 		api = WXAPIFactory.createWXAPI(context, wxAppID);
 		ShareUtil.wxAppID = wxAppID ;
 		//api.registerApp("wx79474d05acb6a73b") ;
 		api.registerApp(wxAppID) ;
-		api.handleIntent(context.getIntent(), new IWXAPIEventHandler() {
+		api.handleIntent(((Activity) context).getIntent(), new IWXAPIEventHandler() {
 			@Override
 			public void onResp(BaseResp arg0) {
 				SendAuth.Resp resp = (SendAuth.Resp) arg0;
@@ -72,10 +71,10 @@ public class ShareUtil {
 		});
 	}
 	
-	public static void  createUmeng(Activity context,String uMengID){
-		SocializeConstants.APPKEY = uMengID;
-		//ShareUtil.uMengID = uMengID ;
-	}
+//	public static void  createUmeng(Activity context,String uMengID){
+//		SocializeConstants.APPKEY = uMengID;
+//		//ShareUtil.uMengID = uMengID ;
+//	}
 	/**
 	 * 解决严格模式 采用异步
 	 */
@@ -99,6 +98,7 @@ public class ShareUtil {
 	 * @param context
 	 */
 	public  void share(final Context context,String ShareText,final String imageUrl){
+		createWXAPI(context, context.getResources().getString(R.string.weixin_key)) ;
 		this.context = context ;
 		//Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
 		SocializeConfig config = new SocializeConfig();

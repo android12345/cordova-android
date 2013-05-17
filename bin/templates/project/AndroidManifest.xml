@@ -53,6 +53,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于评论模块分享位置信息 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于评论模块分享位置信息 -->
     <!-- umeng permission end -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:debuggable="true"
@@ -61,6 +62,7 @@
         android:label="@string/app_name" >
         <activity
             android:name="DevActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
@@ -99,10 +101,11 @@
         </activity>
         <!-- Socialize Activitys End -->
         <!-- umeng appkey -->
-      <!-- <meta-data
+        <!-- 508a19595270157a6f00005e -->
+      	<meta-data
             android:name="UMENG_APPKEY"
-            android:value="508a19595270157a6f00005e" >
-        </meta-data>  -->
+            android:value="@string/umemng_key" >
+        </meta-data> 
         <!-- umeng update service -->
         <service
             android:name="com.umeng.common.net.DownloadingService"
