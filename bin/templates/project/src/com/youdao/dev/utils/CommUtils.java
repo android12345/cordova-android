@@ -1,13 +1,14 @@
 package com.youdao.dev.utils;
 
-import com.youdao.dev.R;
-
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.youdao.dev.R;
 
 public class CommUtils {
 	/**
@@ -34,5 +35,20 @@ public class CommUtils {
 		// 让Toast显示为我们自定义的样子
 		toast.setView(layout);
 		toast.show();
+	}
+
+	public static ProgressDialog progressDialog;
+
+	public static void showProgressDialog(Context context,String title,String message) {
+		progressDialog = new ProgressDialog(context);
+		progressDialog.setTitle(title);  //上传头像
+		progressDialog.setMessage(message); //正在上传头像，请稍候...
+		progressDialog.show();
+	}
+
+	public static void dissDialog() {
+		if(progressDialog !=null && progressDialog.isShowing()){
+			progressDialog.dismiss();
+		}
 	}
 }

@@ -5,23 +5,56 @@ import org.apache.cordova.api.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.widget.Toast;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.SystemClock;
 
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
+import com.youdao.dev.utils.CommUtils;
 
+/**
+ * 应用更新的插件
+ * @author fengxue
+ *
+ */
 public class CheckVersion extends CordovaPlugin {
 	
 	private final static String UPDATE = "checkVersion" ;
+	private Handler handler = new Handler(Looper.getMainLooper()){
+		public void handleMessage(android.os.Message msg) {
+			
+			switch (msg.what) {
+			case 0:
+				CommUtils.dissDialog() ;
+				break;
+
+			default:
+				break;
+			}
+		};
+		
+	} ;
 
 	@Override
 	public boolean execute(String action, JSONArray args,
-			CallbackContext callbackContext) throws JSONException {
+			 final CallbackContext callbackContext) throws JSONException {
 		if(UPDATE.equals(action)){
-			
-			
-			update(callbackContext) ;
+			CommUtils.showProgressDialog(cordova.getActivity(), "查检更新", "正在检查，请稍候!");
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					Looper.prepare() ;
+					SystemClock.sleep(2000) ;
+					update(callbackContext) ;
+					handler.sendMessage(Message.obtain(handler, 0, null));
+					Looper.loop() ;
+				}
+			}).start() ;
+		//	update(callbackContext) ;
 			return true ;
 		}
 		return false ;
@@ -31,6 +64,7 @@ public class CheckVersion extends CordovaPlugin {
 		
 		UmengUpdateAgent.update(this.cordova.getActivity());
 		UmengUpdateAgent.setUpdateAutoPopup(false);
+		UmengUpdateAgent.setUpdateOnlyWifi(false) ;
 		UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
 			@Override
 			public void onUpdateReturned(int updateStatus,
@@ -38,25 +72,26 @@ public class CheckVersion extends CordovaPlugin {
 				
 				switch (updateStatus) {
 				case 0: // has update
+					//handler.sendMessage(Message.obtain(handler, 0, null));
 					UmengUpdateAgent.showUpdateDialog(cordova.getActivity(),
 							updateInfo);
 					break;
 				case 1: // has no update
-					Toast.makeText(cordova.getActivity(), "没有新版本",
-							Toast.LENGTH_SHORT).show();
+					//handler.sendMessage(Message.obtain(handler, 0, null));
+					CommUtils.showMessage("没有新版本", cordova.getActivity()) ;
 					callbackContext.success("没有新版本") ;
 					break;
 				case 2: // none wifi
-					Toast.makeText(cordova.getActivity(),
-							"没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT)
-							.show();
+					//handler.sendMessage(Message.obtain(handler, 0, null));
+					CommUtils.showMessage("没有wifi连接， 只在wifi下更新", cordova.getActivity()) ;
 					callbackContext.success("没有wifi连接， 只在wifi下更新") ;
 					break;
 				case 3: // time out
-					Toast.makeText(cordova.getActivity(), "超时",
-							Toast.LENGTH_SHORT).show();
+					//handler.sendMessage(Message.obtain(handler, 0, null));
+					CommUtils.showMessage("超时", cordova.getActivity()) ;
 					callbackContext.success("超时") ;
 					break;
+
 				}
 			}
 		});
