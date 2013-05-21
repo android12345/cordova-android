@@ -1,11 +1,11 @@
 package com.youdao.dev.utils;
 
-<<<<<<< HEAD
+
 import com.youdao.dev.R;
 
-=======
+
 import android.app.ProgressDialog;
->>>>>>> junjundev
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-=======
-import com.youdao.dev.R;
 
->>>>>>> junjundev
 public class CommUtils {
 	/**
 	 * 显示消息
@@ -44,8 +40,7 @@ public class CommUtils {
 		toast.setView(layout);
 		toast.show();
 	}
-<<<<<<< HEAD
-=======
+
 
 	public static ProgressDialog progressDialog;
 
@@ -61,5 +56,5 @@ public class CommUtils {
 			progressDialog.dismiss();
 		}
 	}
->>>>>>> junjundev
+
 }

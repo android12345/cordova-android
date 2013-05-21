@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">dev</string>
-<<<<<<< HEAD
-   <!--  <string name="umemng_key">umengkey</string> -->
-    
-    <string name="umemng_key">508a19595270157a6f00005e</string>
-    <!-- <string name="weixin_key">wxkey</string> -->
-     <string name="weixin_key">wx781a582436c6b974</string>
-=======
     <string name="umeng_key">umengkey</string>
     <string name="weixin_key">wxkey</string>
 <!--     <string name="umemng_key">508a19595270157a6f00005e</string>
      <string name="weixin_key">wx72faa34338a098e9</string> -->
->>>>>>> junjundev
+
 </resources>
