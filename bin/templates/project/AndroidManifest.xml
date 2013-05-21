@@ -104,7 +104,11 @@
         <!-- 508a19595270157a6f00005e -->
       	<meta-data
             android:name="UMENG_APPKEY"
+<<<<<<< HEAD
             android:value="@string/umemng_key" >
+=======
+            android:value="@string/umeng_key" >
+>>>>>>> junjundev
         </meta-data> 
         <!-- umeng update service -->
         <service
