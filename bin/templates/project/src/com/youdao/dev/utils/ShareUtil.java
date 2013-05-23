@@ -105,9 +105,9 @@ public class ShareUtil {
 		//Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
 		SocializeConfig config = new SocializeConfig();
 		
-		CustomPlatform mWXPlatform = new CustomPlatform("微信", R.drawable.weixin_icon);
+		CustomPlatform mWXPlatform = new CustomPlatform(context.getResources().getString(R.string.weixin), R.drawable.weixin_icon);
 		addWxClickListener(context, mWXPlatform,ShareText,imageUrl,false);
-		CustomPlatform mWXCircle = new CustomPlatform("朋友圈", R.drawable.wxcircel);
+		CustomPlatform mWXCircle = new CustomPlatform(context.getResources().getString(R.string.friend), R.drawable.wxcircel);
 		addWxClickListener(context,mWXCircle,ShareText,imageUrl,true) ;
 		
 		config.addCustomPlatform(mWXPlatform) ;  //添加微信功能到友盟

@@ -24,7 +24,7 @@
         android:layout_marginRight="80dp"
         android:layout_toRightOf="@id/umeng_socialize_icon"
         android:gravity="center_vertical"
-        android:text="MSG"
+        android:text="@string/umeng_msg"
         android:textColor="#D2D5D7"
         android:textSize="16sp" />
 

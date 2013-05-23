@@ -79,7 +79,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:textColor="#525659" />
+            android:textColor="#525659"
+            android:text="" />
 
         <RelativeLayout
             android:layout_width="40dp"
@@ -126,7 +127,7 @@
         android:background="#ffffff"
         android:bufferType="spannable"
         android:gravity="top"
-        android:hint="说点什么吧。。。"
+        android:hint="@string/say_someting"
         android:padding="2dp" />
 
 </com.umeng.socialize.view.wigets.KeyboardListenRelativeLayout>

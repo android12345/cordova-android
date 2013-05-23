@@ -18,7 +18,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/umeng_socialize_input_bar"
             android:paddingLeft="15dp"
-            android:hint="在这说点什么...."
+            android:hint="@string/say_this"
             android:editable="false"
             android:focusable="false"
          />

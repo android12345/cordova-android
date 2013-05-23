@@ -27,7 +27,7 @@
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@id/umeng_socialize_full_alert_dialog_item_icon"
             android:gravity="center_vertical"
-            android:text="腾讯微博"
+            android:text="@string/tencent_wb"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
@@ -39,7 +39,8 @@
             android:layout_marginRight="12dp"
             android:gravity="center_vertical"
             android:textColor="#44474f"
-            android:textSize="15sp" />
+            android:textSize="15sp" 
+            android:text=""/>
     </RelativeLayout>
 
     <View
