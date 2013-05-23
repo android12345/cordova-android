@@ -29,6 +29,7 @@ import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
+
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -278,6 +279,7 @@ public class ShareUtil {
 			return;
 		} else if (!api.isWXAppSupportAPI()) {
 			CommUtils.showMessage("你安装的微信版本不支持当前API", context) ;
+
 			return;
 		}
 	}
@@ -287,6 +289,7 @@ public class ShareUtil {
 	 */
 	private void wxShareText(String text){
 		if (text == null || text.length() == 0) {
+
 			return;
 		}
 		
