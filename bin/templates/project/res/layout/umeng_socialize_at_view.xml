@@ -21,7 +21,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:background="@drawable/umeng_socialize_at_search_bg"
-            android:hint="搜索"
+            android:hint="@string/search"
             android:paddingLeft="35dp"
             android:textColor="#ffffff" />
 

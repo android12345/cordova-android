@@ -37,7 +37,7 @@
         android:ellipsize="end"
         android:ems="10"
         android:maxLines="1"
-        android:text="NAME"
+        android:text="@string/name"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/umeng_socialize_comment_item_has_location"
-        android:text="1 days ago"
+        android:text="@string/one_days_ago"
         android:textColor="#ffffff"
         android:textSize="10sp" />
 

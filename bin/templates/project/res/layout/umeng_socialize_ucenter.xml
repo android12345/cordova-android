@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:gravity="center_vertical"
-            android:text="登录账号"
+            android:text="@string/login_account"
             android:textColor="#D2D5D7"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:text="匿名用户"
+                android:text="@string/anonymous_user"
                 android:textColor="#D2D5D7"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -69,7 +69,7 @@
                     android:layout_width="80dp"
                    android:textColor="#ffffff"
                     android:layout_height="fill_parent"
-                    android:text="点击登录"
+                    android:text="@string/click_login"
                     android:background="@drawable/umeng_socialize_button_grey_blue"
                     android:textSize="10sp" />
 
@@ -80,7 +80,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:lines="2"
-                    android:text="http://www.umeng.com/"
+                    android:text="@string/umeng_weburl"
                     android:textColor="#9f9f9f"
                     android:textSize="12sp" />
             </ViewFlipper>
@@ -101,7 +101,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
-            android:text="分享设置"
+            android:text="@string/share_setup"
             android:textColor="#7F8082"
             android:textSize="18sp"
             android:textStyle="bold" />

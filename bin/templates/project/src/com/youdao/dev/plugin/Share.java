@@ -7,10 +7,7 @@ import org.apache.cordova.api.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.widget.Toast;
-
 import com.youdao.dev.domain.ShareInfo;
-import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.ShareUtil;
 
 
@@ -23,7 +20,7 @@ public class Share extends CordovaPlugin {
 	public static final String REGISTERUM = "registerUmeng" ; 
 	public static final String REGISTERWX = "registerWeixin" ;
 	public static final String SHARE = "share" ;
-	private static String uMengID ;
+//	private static String uMengID ;
 	
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -32,37 +29,37 @@ public class Share extends CordovaPlugin {
 		ShareInfo shareInfo = ShareInfo.parse(args) ;
 		
 		if(REGISTERWX.equals(action)){//如果是注册微信的事件
-			String wxAppID = args.getString(0) ;  //取得js传过来的微信的id
-			registerWx(wxAppID,callbackContext) ;
-			return true ;
+//			String wxAppID = args.getString(0) ;  //取得js传过来的微信的id
+//			registerWx(wxAppID,callbackContext) ;
+//			return true ;
 		}else if(SHARE.equals(action)){
-			if(uMengID==null || uMengID.equals("")){ 
-				CommUtils.showMessage("你还没有注册友盟，清先注册", this.cordova.getActivity()) ;
-			}else{//如果key不为空的话那就调用友盟分享功能
+//			if(uMengID==null || uMengID.equals("")){ 
+//				CommUtils.showMessage("你还没有注册友盟，清先注册", this.cordova.getActivity()) ;
+//			}else{//如果key不为空的话那就调用友盟分享功能
 				ShareInfo(shareInfo,callbackContext) ;
-			}
+//			}
 			return true ;
 		}else if(REGISTERUM.equals(action)){
-			 uMengID = args.getString(0) ; //取得js传过来的友盟appkey
-			registerUmeng(uMengID,callbackContext) ;
+//			 uMengID = args.getString(0) ; //取得js传过来的友盟appkey
+//			registerUmeng(uMengID,callbackContext) ;
 		}
 		return false ;
 	}
 
-	/**
-	 * 注册友盟
-	 * @param uMengID
-	 * @param callbackContext
-	 */
-	private void registerUmeng(String uMengID, CallbackContext callbackContext) {
-		if(uMengID==null || uMengID.equals("")){ //如果key不为空的话那就注册微信
-			callbackContext.error("必须传入友盟中应用的appkey") ;
-		}else{
-			ShareUtil.createUmeng(cordova.getActivity(), uMengID) ;
-			callbackContext.success("注册友盟成功") ;
-			
-		}
-	}
+//	/**
+//	 * 注册友盟
+//	 * @param uMengID
+//	 * @param callbackContext
+//	 */
+//	private void registerUmeng(String uMengID, CallbackContext callbackContext) {
+//		if(uMengID==null || uMengID.equals("")){ //如果key不为空的话那就注册微信
+//			callbackContext.error("必须传入友盟中应用的appkey") ;
+//		}else{
+//			ShareUtil.createUmeng(cordova.getActivity(), uMengID) ;
+//			callbackContext.success("注册友盟成功") ;
+//			
+//		}
+//	}
 
 	/**
 	 * @param shareInfo 要分享的对象 
@@ -87,7 +84,6 @@ public class Share extends CordovaPlugin {
 //			Class c = Class.forName(mainActivityName);
 //			Method m = c.getMethod("ShareInfo", ShareInfo.class);
 //			m.invoke(c,shareInfo);
-
 			Runnable runnable = new Runnable() {
 				
 				@Override
@@ -106,19 +102,19 @@ public class Share extends CordovaPlugin {
 		callbackContext.success("准备开始分享!") ;
 	}
 
-	/**
-	 * @param wxAppID   注册微信的appID
-	 * @param callbackContext
-	 */
-	private void registerWx(String wxAppID, CallbackContext callbackContext) {
-		if(wxAppID==null || wxAppID.equals("")){ //如果key不为空的话那就注册微信
-			callbackContext.error("必须传入微信的appkey") ;
-		}else{
-			ShareUtil.createWXAPI(cordova.getActivity(), wxAppID) ;
-			callbackContext.success("注册微信成功") ;
-			
-		}
-	}
+//	/**
+//	 * @param wxAppID   注册微信的appID
+//	 * @param callbackContext
+//	 */
+//	private void registerWx(String wxAppID, CallbackContext callbackContext) {
+//		if(wxAppID==null || wxAppID.equals("")){ //如果key不为空的话那就注册微信
+//			callbackContext.error("必须传入微信的appkey") ;
+//		}else{
+//			ShareUtil.createWXAPI(cordova.getActivity(), wxAppID) ;
+//			callbackContext.success("注册微信成功") ;
+//			
+//		}
+//	}
 
 	
 }
