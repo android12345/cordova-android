@@ -23,7 +23,7 @@ public class YouDaoApplication extends Application {
 	         JPushInterface.setDebugMode(true); 	//设置开启日志,发布时请关闭日志
 	         
 	         JPushInterface.init(this);     		// 初始化 JPush
-	         JPushInterface.setAliasAndTags(this, DeviceUtils.getUUID(this), null) ;
+	         JPushInterface.setAliasAndTags(this, DeviceUtils.getUUID(this), null) ;//极光设置别名
 	         
 	         locationProvider =  new LocationProvider(this) ;
 	         
