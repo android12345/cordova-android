@@ -38,7 +38,7 @@ public class HttpClientUtils {
 	}
 
 	/**
-	 * 发起post网络访问，可以设置是否使用json缓存
+	 * 发起post网络访问
 	 * 
 	 * @param url
 	 *            访问地址

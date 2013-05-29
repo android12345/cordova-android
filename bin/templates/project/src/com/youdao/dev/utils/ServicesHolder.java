@@ -22,11 +22,10 @@ import android.util.Log;
  */
 
 public class ServicesHolder {
-//	public static final int FRIEND_TIME_ONLINE = 1;
-//	public static final int USERS_SHOW = 2;
-//	public static final int DOMAIN_SHOW = 3;
+
 	public static final int APP_ADD = 1 ;
 	public static final int GETAPP_INFO = 2 ;
+	public static final int PUSH_ANDROID_ADD = 3 ;
 
 	public static int DEVELOPMENT = 0;
 	public static int PRODUCTION = 1;
@@ -37,21 +36,18 @@ public class ServicesHolder {
 	static {
 
 		env = new HashMap<Integer, String>();
-		//env.put(DEVELOPMENT, "https://api.weibo.com/2");
-		//env.put(PRODUCTION, "https://api.weibo.com/2");
+
 		env.put(DEVELOPMENT, "http://cloud.appmars.com") ;
 		env.put(PRODUCTION, "http://cloud.appmars.com") ;
-		env.put(TEST, "http://test.ent.appmars.com");
+		//env.put(TEST, "http://test.ent.appmars.com");
 		
 
 		mapmodule = new HashMap<Integer, String>();
-//		mapmodule.put(FRIEND_TIME_ONLINE, "/statuses/friends_timeline.json");
-//		mapmodule.put(USERS_SHOW, "/users/show.json");
-//		mapmodule.put(DOMAIN_SHOW, "/users/domain_show.json");
+
 		
 		mapmodule.put(APP_ADD, "/cloud/1/app_add") ;
 		mapmodule.put(GETAPP_INFO, "/cloud/1/app_info_get") ;
-		
+		mapmodule.put(PUSH_ANDROID_ADD, "/cloud/1/push_android_add") ;
 
 	}
 
