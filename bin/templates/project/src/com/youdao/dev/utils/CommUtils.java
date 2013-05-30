@@ -67,8 +67,6 @@ public class CommUtils {
 	public static String getProvidersName(Context context) {
 		TelephonyManager telephonyManager = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		int absent = TelephonyManager.SIM_STATE_READY;
-		CommUtils.showMessage("absent:::"+absent, context) ;
 		if (telephonyManager.getSimState() == TelephonyManager.SIM_STATE_READY) {
 			String ProvidersName = null;
 

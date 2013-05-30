@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;

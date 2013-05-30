@@ -195,10 +195,10 @@ public class ShareUtil {
  */
 				wxShareText(text) ;
 				
-				if(imageUrl != null){
+				if(imageUrl != null){ //如果图片不为空就分享图片　
 					wxShareImageThread(imageUrl);
 				}
-				if(text!=null && imageUrl!=null){
+				if(text!=null && imageUrl!=null){//图片和文字都不为空的话，默认让分享图片　
 					wxShareImageThread(imageUrl);
 				}
 
