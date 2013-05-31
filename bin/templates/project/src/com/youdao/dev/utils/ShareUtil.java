@@ -29,7 +29,6 @@ import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
-
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -58,7 +57,7 @@ public class ShareUtil {
 	 */
 	public  void createWXAPI(Context context,String wxAppID){
 		//api = WXAPIFactory.createWXAPI(context, "wx79474d05acb6a73b");
-		api = WXAPIFactory.createWXAPI(context, wxAppID);
+		api = WXAPIFactory.createWXAPI(context, wxAppID,true);
 		ShareUtil.wxAppID = wxAppID ;
 		//api.registerApp("wx79474d05acb6a73b") ;
 		api.registerApp(wxAppID) ;
@@ -102,10 +101,10 @@ public class ShareUtil {
 	 */
 	public  void share(final Context context,String ShareText,final String imageUrl){
 		createWXAPI(context, context.getResources().getString(R.string.weixin_key)) ;
+		
 		this.context = context ;
 		//Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
 		SocializeConfig config = new SocializeConfig();
-		
 		CustomPlatform mWXPlatform = new CustomPlatform(context.getResources().getString(R.string.weixin), R.drawable.weixin_icon);
 		addWxClickListener(context, mWXPlatform,ShareText,imageUrl,false);
 		CustomPlatform mWXCircle = new CustomPlatform(context.getResources().getString(R.string.friend), R.drawable.wxcircel);
@@ -207,7 +206,6 @@ public class ShareUtil {
 				}
 			}
 
-			
 
 
 		};
