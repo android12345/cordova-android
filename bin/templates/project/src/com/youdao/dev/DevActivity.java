@@ -88,6 +88,11 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		provider = new LocationProvider(this) ;
 		
+		Intent intent = this.getIntent() ;
+		//取得JpushReceiver　传过来的附加字段的值
+		String uricontent = intent.getStringExtra("uri") ;
+		
+		Log.d(TAG, "^^^^^^^^^^^^^^^:"+Config.getStartUrl() +"?"+ uricontent) ;
 
 		setFullScreen();
 
@@ -96,10 +101,18 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		displayGuide();
 		addNetWorkReceiver();
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
-			super.loadUrl(Config.getStartUrl(), 10000);
+			if(uricontent != null){
+				super.loadUrl(Config.getStartUrl() + "?"+ uricontent, 10000);
+			}else{
+				super.loadUrl(Config.getStartUrl() , 10000);
+			}
 			cancelFullscreen() ;
 		} else {
-			super.loadUrl(Config.getStartUrl());
+			if(uricontent != null){
+				super.loadUrl(Config.getStartUrl()  + "?"+uricontent);
+			}else{
+				super.loadUrl(Config.getStartUrl());
+			}
 			cancelFullscreen() ;
 		}
 

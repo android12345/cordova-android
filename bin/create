@@ -225,7 +225,7 @@ replace "s/com.youdao.dev/${PACKAGE}/g" "$PROJECT_PATH"/res/xml/config.xml
 replace "s/dev/${ACTIVITY}/g" "$STRING_XML_PATH"
 
 replace "s/DevActivity/${ACTIVITY}/g" "$GUIDE_PATH"
-
+replace "s/DevActivity/${ACTIVITY}/g" "$JPUSHRECEIVER_PATH"
 
 #=================================================================replace src/ all file package name
 sed -i "s/com.youdao.dev/${PACKAGE}/g" `grep com.youdao.dev -rl ${PROJECT_PATH}/src`

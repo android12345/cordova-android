@@ -9,8 +9,8 @@
 <!--  <string name="appid">app_id</string> -->
     <string name="umeng_key">51a305af56240bec12015bf1</string>
      <string name="weixin_key">wx72faa34338a098e9</string> 
-     <!-- <string name="jpush_key">7861271dad77ccda0691213d</string> -->
-     <string name="jpush_key">b3330bfdcc364b2d12efc15c</string>
+     <string name="jpush_key">7861271dad77ccda0691213d</string> 
+    <!--  <string name="jpush_key">9d73597cce5c531afe373281</string> -->
      
      <string name="appid">1</string>
      
