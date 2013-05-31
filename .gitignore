@@ -29,7 +29,6 @@ Desktop.ini
 *.bak
 *.swp
 *.class
-*.jar
 # IntelliJ IDEA files
 *.iml
 .idea
