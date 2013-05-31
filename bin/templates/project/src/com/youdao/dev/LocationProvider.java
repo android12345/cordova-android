@@ -93,7 +93,7 @@ public class LocationProvider {
             	public void onSuccess(JSONObject arg0) {
             		super.onSuccess(arg0);
             	//	   Log.d("@@@@@@@@@@@@@@@@:", "13222222222222222222222222222222222") ;
-            		Log.d("@@@@@@@@@@@@@@@@@@@@@@@@:", arg0.toString()) ;
+            	//	Log.d("@@@@@@@@@@@@@@@@@@@@@@@@:", arg0.toString()) ;
             	}
             }) ;
         } 

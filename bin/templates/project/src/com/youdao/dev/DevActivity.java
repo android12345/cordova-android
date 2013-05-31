@@ -47,7 +47,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.youdao.dev.domain.LocationBean;
 import com.youdao.dev.utils.DeviceUtils;
@@ -84,15 +83,17 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%:", DeviceUtils.getUUID(this)) ;
+		Log.d("设备的UUID:", DeviceUtils.getUUID(this)) ;
 
 		provider = new LocationProvider(this) ;
+		
+		JpushReceiver.activity = this ;
 		
 		Intent intent = this.getIntent() ;
 		//取得JpushReceiver　传过来的附加字段的值
 		String uricontent = intent.getStringExtra("uri") ;
 		
-		Log.d(TAG, "^^^^^^^^^^^^^^^:"+Config.getStartUrl() +"?"+ uricontent) ;
+		Log.d(TAG, "推送消息要打开的地址:"+Config.getStartUrl() +"?"+ uricontent) ;
 
 		setFullScreen();
 
@@ -153,6 +154,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setRegisterReceiver(connectionReceiver);
 	}
 
+	
 	/**
 	 * 首先判断drawable目录下是否有名为spalsh.png的图片，如果有就设置spalsh ，如果没有就不设置
 	 */
@@ -161,11 +163,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		if(station.getLatitude()== null && station.getLongitude() == null){
 			  provider.updateListener(); 
 		      station = provider.getLocation(); 
-		      Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
+		    //  Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
 		}
-		Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
-		//Log.d("#############################################", "经度是："+station.latitude + ",,,纬度是："+station.longitude) ;
-		//Toast.makeText(this, "hahs:"+station.latitude, 0).show() ;
+		//Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
 		provider.stopListener(); 
 		splashId = getResources().getIdentifier("splash", "drawable",
 				this.getPackageName());

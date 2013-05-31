@@ -19,6 +19,7 @@ import cn.jpush.android.api.JPushInterface;
 public class JpushReceiver extends BroadcastReceiver {
 
 	private static final String TAG = "JpushReceiver";
+	 static DevActivity activity ;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -52,16 +53,18 @@ public class JpushReceiver extends BroadcastReceiver {
             	  JSONObject jsonObject = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA)) ;
                   urivaules = jsonObject.optString("uri") ;
                   Log.d(TAG, "接收到的附加字段: " + urivaules);
+              	
+                 // 打开自定义的Activity
+              	Intent i = new Intent(context, DevActivity.class);
+              	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              	i.putExtra("uri", urivaules) ;
+              	activity.finish() ;
+              	context.startActivity(i);
+              
 			} catch (Exception e) {
 				e.printStackTrace() ;
 			}
-          
-            
-        	//打开自定义的Activity
-        	Intent i = new Intent(context, DevActivity.class);
-        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        	i.putExtra("uri", urivaules) ;
-        	context.startActivity(i);
+        
 //            Intent i = new Intent(Intent.ACTION_VIEW , Uri.parse("http://www.baidu.com"));
 //            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(i);
