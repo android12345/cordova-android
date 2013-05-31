@@ -59,7 +59,7 @@ public class GetApplicationInfo extends CordovaPlugin {
 		final String phonebrands = CommUtils.getPhoneBrand() ;
 		final String latitude = station.getLatitude() ;
 		final String longitude = station.getLongitude() ;
-		final String app_id = cordova.getActivity().getResources().getString(R.string.appid) ;
+		final String app_id = cordova.getActivity().getResources().getString(R.string.app_id) ;
 		
 		JpushManager.getInstance().jpushSendData(cordova.getActivity(), app_id, uuid, uid, appversion, sdkversion, latitude, longitude, operators, phonebrands, new JsonHttpResponseHandler(){
 			@Override

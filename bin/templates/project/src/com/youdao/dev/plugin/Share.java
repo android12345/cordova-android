@@ -90,6 +90,7 @@ public class Share extends CordovaPlugin {
 				public void run() {
 					ShareUtil shareUtil = new ShareUtil() ;
 					shareUtil.share(cordova.getActivity(),shareInfo.getShareText(), shareInfo.getShareImageUrl()) ;
+					
 				}
 			};
 			cordova.getActivity().runOnUiThread(runnable);  //在UI线程运行 ,友盟分享功能要在UI 线程中运行，否则报错
@@ -116,5 +117,5 @@ public class Share extends CordovaPlugin {
 //		}
 //	}
 
-	
+
 }

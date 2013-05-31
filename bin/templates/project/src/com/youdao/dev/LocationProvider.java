@@ -86,7 +86,7 @@ public class LocationProvider {
             
          //   Log.d("*************************:", location.getLatitude()+","+location.getLongitude()) ;
             
-            final String app_id = context.getResources().getString(R.string.appid) ;
+            final String app_id = context.getResources().getString(R.string.app_id) ;
             //Toast.makeText(context, "appid is "+app_id, 0).show() ;
             JpushManager.getInstance().jpushSendData(context, app_id, DeviceUtils.getUUID(context), "", CommUtils.getVersionCode(context), CommUtils.getAndroidSDKVersion(), location.getLatitude() + "", location.getLongitude() + "", CommUtils.getProvidersName(context), CommUtils.getPhoneBrand(), new JsonHttpResponseHandler(){
             	@Override
