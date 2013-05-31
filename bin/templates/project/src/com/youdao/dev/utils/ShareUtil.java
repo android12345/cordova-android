@@ -29,7 +29,6 @@ import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
-
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -58,7 +57,7 @@ public class ShareUtil {
 	 */
 	public  void createWXAPI(Context context,String wxAppID){
 		//api = WXAPIFactory.createWXAPI(context, "wx79474d05acb6a73b");
-		api = WXAPIFactory.createWXAPI(context, wxAppID);
+		api = WXAPIFactory.createWXAPI(context, wxAppID,true);
 		ShareUtil.wxAppID = wxAppID ;
 		//api.registerApp("wx79474d05acb6a73b") ;
 		api.registerApp(wxAppID) ;
@@ -102,13 +101,13 @@ public class ShareUtil {
 	 */
 	public  void share(final Context context,String ShareText,final String imageUrl){
 		createWXAPI(context, context.getResources().getString(R.string.weixin_key)) ;
+		
 		this.context = context ;
 		//Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
 		SocializeConfig config = new SocializeConfig();
-		
-		CustomPlatform mWXPlatform = new CustomPlatform("微信", R.drawable.weixin_icon);
+		CustomPlatform mWXPlatform = new CustomPlatform(context.getResources().getString(R.string.weixin), R.drawable.weixin_icon);
 		addWxClickListener(context, mWXPlatform,ShareText,imageUrl,false);
-		CustomPlatform mWXCircle = new CustomPlatform("朋友圈", R.drawable.wxcircel);
+		CustomPlatform mWXCircle = new CustomPlatform(context.getResources().getString(R.string.friend), R.drawable.wxcircel);
 		addWxClickListener(context,mWXCircle,ShareText,imageUrl,true) ;
 		
 		config.addCustomPlatform(mWXPlatform) ;  //添加微信功能到友盟
@@ -195,10 +194,10 @@ public class ShareUtil {
  */
 				wxShareText(text) ;
 				
-				if(imageUrl != null){
+				if(imageUrl != null){ //如果图片不为空就分享图片　
 					wxShareImageThread(imageUrl);
 				}
-				if(text!=null && imageUrl!=null){
+				if(text!=null && imageUrl!=null){//图片和文字都不为空的话，默认让分享图片　
 					wxShareImageThread(imageUrl);
 				}
 
@@ -207,7 +206,6 @@ public class ShareUtil {
 				}
 			}
 
-			
 
 
 		};

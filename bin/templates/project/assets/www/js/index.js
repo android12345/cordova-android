@@ -157,5 +157,18 @@ var app = {
                 }, "Redirect", "callNumber", ["123456789414"]);
 
             }
+            
+            
+            
+  function passuid() {
+                cordova.exec(function(winParam) {
+                    alert(winParam);
+                    //var i = winParam ;
+                    //alert(i+"谢谢你") ;
+                }, function(error) {
+                    alert(error);
+                }, "GetApplicationInfo", "getApplicationInfo", ["19"]);
+
+            }
 
 

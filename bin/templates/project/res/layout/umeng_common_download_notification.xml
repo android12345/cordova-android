@@ -31,7 +31,8 @@
                 android:layout_gravity="center_horizontal"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:text="" />
         </LinearLayout>
 
         <RelativeLayout
@@ -94,6 +95,7 @@
                     android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textColor="#ff000000"
+                    android:text=""
                     android:textSize="18sp" />
 
                 <TextView
@@ -104,7 +106,8 @@
                     android:singleLine="true"
                     android:textColor="#ff000000"
                     android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic" 
+                    android:text=""/>
             </LinearLayout>
 
             <ProgressBar

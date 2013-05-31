@@ -26,10 +26,6 @@ import java.util.List;
 import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
-import com.youdao.dev.utils.NetWorkUtils;
-
-
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -46,14 +42,20 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.youdao.dev.domain.LocationBean;
+import com.youdao.dev.utils.DeviceUtils;
+import com.youdao.dev.utils.NetWorkUtils;
+
 public class DevActivity extends DroidGap implements OnClickListener {
 	
 	private BroadcastReceiver connectionReceiver; 
+	
 
 	private static Handler handler = new Handler() { // 线程
 		public void handleMessage(android.os.Message msg) {
@@ -75,11 +77,23 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	private int splashId = 0;// 是否有spalsh界面的标志
 
 	private static SharedPreferences preferences;
-
+	
+	
+	LocationProvider provider = null ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("设备的UUID:", DeviceUtils.getUUID(this)) ;
+
+		provider = new LocationProvider(this) ;
 		
+		JpushReceiver.activity = this ;
+		
+		Intent intent = this.getIntent() ;
+		//取得JpushReceiver　传过来的附加字段的值
+		String uricontent = intent.getStringExtra("uri") ;
+		
+		Log.d(TAG, "推送消息要打开的地址:"+Config.getStartUrl() +"?"+ uricontent) ;
 
 		setFullScreen();
 
@@ -88,10 +102,18 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		displayGuide();
 		addNetWorkReceiver();
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
-			super.loadUrl(Config.getStartUrl(), 5000);
+			if(uricontent != null){
+				super.loadUrl(Config.getStartUrl() + "?"+ uricontent, 10000);
+			}else{
+				super.loadUrl(Config.getStartUrl() , 10000);
+			}
 			cancelFullscreen() ;
 		} else {
-			super.loadUrl(Config.getStartUrl());
+			if(uricontent != null){
+				super.loadUrl(Config.getStartUrl()  + "?"+uricontent);
+			}else{
+				super.loadUrl(Config.getStartUrl());
+			}
 			cancelFullscreen() ;
 		}
 
@@ -132,11 +154,19 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setRegisterReceiver(connectionReceiver);
 	}
 
+	
 	/**
 	 * 首先判断drawable目录下是否有名为spalsh.png的图片，如果有就设置spalsh ，如果没有就不设置
 	 */
 	private void displaySplash() {
-
+		LocationBean station = provider.getLocation(); 
+		if(station.getLatitude()== null && station.getLongitude() == null){
+			  provider.updateListener(); 
+		      station = provider.getLocation(); 
+		    //  Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
+		}
+		//Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
+		provider.stopListener(); 
 		splashId = getResources().getIdentifier("splash", "drawable",
 				this.getPackageName());
 		if (splashId != 0) {
@@ -178,6 +208,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 	// 设置全屏
 	public void setFullScreen() {
+		//application.setLocationOption();
 		getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);// 清除FLAG
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -267,6 +298,8 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(connectionReceiver);
+		
+		provider.stopListener(); 
 	}
 	/**
 	 * 注册网络检测广播
