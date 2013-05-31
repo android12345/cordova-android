@@ -103,9 +103,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		addNetWorkReceiver();
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
 			if(uricontent != null){
-				super.loadUrl(Config.getStartUrl() + "?"+ uricontent, 10000);
+				super.loadUrl(Config.getStartUrl() + "?"+ uricontent, 120000);
 			}else{
-				super.loadUrl(Config.getStartUrl() , 10000);
+				super.loadUrl(Config.getStartUrl() , 120000);
 			}
 			cancelFullscreen() ;
 		} else {
