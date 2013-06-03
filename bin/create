@@ -22,7 +22,7 @@
 #   ./create [path package activity]
 #
 set -e
-
+LANG=C
 if [ -z "$1" ] || [ "$1" == "-h" ]
 then
     echo "Usage: $0 <path_to_new_project> <package_name> <project_name>"
@@ -228,7 +228,7 @@ replace "s/DevActivity/${ACTIVITY}/g" "$GUIDE_PATH"
 replace "s/DevActivity/${ACTIVITY}/g" "$JPUSHRECEIVER_PATH"
 
 #=================================================================replace src/ all file package name
-sed -i "s/com.youdao.dev/${PACKAGE}/g" `grep com.youdao.dev -rl ${PROJECT_PATH}/src`
+sed -i -e "s/com.youdao.dev/${PACKAGE}/g" `grep com.youdao.dev -rl ${PROJECT_PATH}/src`
 
 #=============================replace end
 
@@ -248,3 +248,5 @@ cp -rf $BUILD_PATH/bin/templates/cordova $PROJECT_PATH
 #cp "$BUILD_PATH"/bin/templates/cordova/clean "$PROJECT_PATH"/cordova/clean
 #cp "$BUILD_PATH"/bin/templates/cordova/log "$PROJECT_PATH"/cordova/log
 #cp "$BUILD_PATH"/bin/templates/cordova/run "$PROJECT_PATH"/cordova/run
+
+rm `find ${PROJECT_PATH} -name '*-e'`
