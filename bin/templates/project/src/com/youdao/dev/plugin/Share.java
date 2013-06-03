@@ -90,6 +90,7 @@ public class Share extends CordovaPlugin {
 				public void run() {
 					ShareUtil shareUtil = new ShareUtil() ;
 					shareUtil.share(cordova.getActivity(),shareInfo.getShareText(), shareInfo.getShareImageUrl()) ;
+					shareUtil = null;
 					
 				}
 			};

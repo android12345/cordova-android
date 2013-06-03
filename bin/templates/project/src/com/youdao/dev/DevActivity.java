@@ -27,6 +27,7 @@ import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,14 +49,20 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.tencent.mm.sdk.openapi.BaseReq;
+import com.tencent.mm.sdk.openapi.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.SendAuth;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youdao.dev.domain.LocationBean;
 import com.youdao.dev.utils.DeviceUtils;
 import com.youdao.dev.utils.NetWorkUtils;
+import com.youdao.dev.utils.ShareUtil;
 
 public class DevActivity extends DroidGap implements OnClickListener {
-	
-	private BroadcastReceiver connectionReceiver; 
-	
+
+	private BroadcastReceiver connectionReceiver;
 
 	private static Handler handler = new Handler() { // 线程
 		public void handleMessage(android.os.Message msg) {
@@ -77,44 +84,44 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	private int splashId = 0;// 是否有spalsh界面的标志
 
 	private static SharedPreferences preferences;
-	
-	
-	LocationProvider provider = null ;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("设备的UUID:", DeviceUtils.getUUID(this)) ;
+		Log.d("设备的UUID:", DeviceUtils.getUUID(this));
 
-		provider = new LocationProvider(this) ;
-		
-		JpushReceiver.activity = this ;
-		
-		Intent intent = this.getIntent() ;
-		//取得JpushReceiver　传过来的附加字段的值
-		String uricontent = intent.getStringExtra("uri") ;
-		
-		Log.d(TAG, "推送消息要打开的地址:"+Config.getStartUrl() +"?"+ uricontent) ;
+		JpushReceiver.activity = this;
+
+		Intent intent = this.getIntent();
+		// 取得JpushReceiver　传过来的附加字段的值
+		String uricontent = intent.getStringExtra("uri");
+
+		Log.d(TAG, "推送消息要打开的地址:" + Config.getStartUrl() + "?" + uricontent);
 
 		setFullScreen();
 
 		displaySplash();
 
 		displayGuide();
+
 		addNetWorkReceiver();
+
+		registerWeixin();
+
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
-			if(uricontent != null){
-				super.loadUrl(Config.getStartUrl() + "?"+ uricontent, 120000);
-			}else{
-				super.loadUrl(Config.getStartUrl() , 120000);
+			if (uricontent != null) {
+				super.loadUrl(Config.getStartUrl() + "?" + uricontent, 120000);
+			} else {
+				super.loadUrl(Config.getStartUrl(), 120000);
 			}
-			cancelFullscreen() ;
+			cancelFullscreen();
 		} else {
-			if(uricontent != null){
-				super.loadUrl(Config.getStartUrl()  + "?"+uricontent);
-			}else{
+			if (uricontent != null) {
+				super.loadUrl(Config.getStartUrl() + "?" + uricontent);
+			} else {
 				super.loadUrl(Config.getStartUrl());
 			}
-			cancelFullscreen() ;
+			cancelFullscreen();
 		}
 
 	}
@@ -135,18 +142,18 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 				if (!mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
 					// unconnect network
-				//	mNetWorkState = NetworkUtils.NETWORN_NONE;
-					NetWorkUtils.setNetWorkDialog(DevActivity.this) ;
-				} 
-				
-//				else {
-//					if (mobNetInfo.isConnected()) {
-//						mNetWorkState = NetworkUtils.NETWORN_MOBILE;
-//					} else if (wifiNetInfo.isConnected()) {
-//						mNetWorkState = NetworkUtils.NETWORN_WIFI;
-//					}
-//					// connect network
-//				}
+					// mNetWorkState = NetworkUtils.NETWORN_NONE;
+					NetWorkUtils.setNetWorkDialog(DevActivity.this);
+				}
+
+				// else {
+				// if (mobNetInfo.isConnected()) {
+				// mNetWorkState = NetworkUtils.NETWORN_MOBILE;
+				// } else if (wifiNetInfo.isConnected()) {
+				// mNetWorkState = NetworkUtils.NETWORN_WIFI;
+				// }
+				// // connect network
+				// }
 			}
 
 		};
@@ -154,19 +161,11 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setRegisterReceiver(connectionReceiver);
 	}
 
-	
 	/**
 	 * 首先判断drawable目录下是否有名为spalsh.png的图片，如果有就设置spalsh ，如果没有就不设置
 	 */
 	private void displaySplash() {
-		LocationBean station = provider.getLocation(); 
-		if(station.getLatitude()== null && station.getLongitude() == null){
-			  provider.updateListener(); 
-		      station = provider.getLocation(); 
-		    //  Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
-		}
-		//Toast.makeText(this, "hahs:"+station.getLatitude(), 0).show() ;
-		provider.stopListener(); 
+
 		splashId = getResources().getIdentifier("splash", "drawable",
 				this.getPackageName());
 		if (splashId != 0) {
@@ -208,13 +207,12 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 	// 设置全屏
 	public void setFullScreen() {
-		//application.setLocationOption();
+		// application.setLocationOption();
 		getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);// 清除FLAG
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 
 	}
 
@@ -234,7 +232,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 * 创建新手引导布局在root上
 	 */
 	private void creatGuideLayout(List<Integer> images) {
-		
+
 		guideDialog = new Dialog(this,
 				android.R.style.Theme_Translucent_NoTitleBar);
 		// check to see if the splash screen should be full screen
@@ -243,15 +241,16 @@ public class DevActivity extends DroidGap implements OnClickListener {
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
-		Guide guide = new Guide(this, images, this,guideDialog);
+		Guide guide = new Guide(this, images, this, guideDialog);
 		View view = guide.getView();
 		guideDialog.setContentView(view);
 		guideDialog.setCancelable(false);
 		guideDialog.show();
 	}
-	
+
 	/**
 	 * 取得当前应用的版本名
+	 * 
 	 * @return
 	 */
 	private String getVersion() {
@@ -291,6 +290,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		}
 		return images;
 	}
+
 	/**
 	 * 取消网络检测广播
 	 */
@@ -298,11 +298,12 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(connectionReceiver);
-		
-		provider.stopListener(); 
+
 	}
+
 	/**
 	 * 注册网络检测广播
+	 * 
 	 * @param receiver
 	 */
 	private void setRegisterReceiver(BroadcastReceiver receiver) {
@@ -311,14 +312,42 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(connectionReceiver, intentFilter);
 	}
+
 	/**
 	 * 取消全屏方法
 	 */
-	public void cancelFullscreen(){
+	public void cancelFullscreen() {
 		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
 		attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().setAttributes(attrs);
-		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		getWindow()
+				.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 	}
-	
+
+	/**
+	 * 创建和注册AppID到微信
+	 * 
+	 * @param context
+	 */
+	public void registerWeixin() {
+		String wxAppID = this.getResources().getString(R.string.weixin_key);
+		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
+			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID, true);
+			System.out.println("registerWeixin " + wxAppID);
+			api.registerApp(wxAppID);
+
+//			api.handleIntent(((Activity) this).getIntent(),
+//					new IWXAPIEventHandler() {
+//						@Override
+//						public void onResp(BaseResp arg0) {
+//							SendAuth.Resp resp = (SendAuth.Resp) arg0;
+//							System.out.println(resp.userName);
+//						}
+//
+//						@Override
+//						public void onReq(BaseReq arg0) {
+//						}
+//					});
+		}
+	}
 }
