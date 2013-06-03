@@ -77,9 +77,9 @@ public class LocationProvider {
  
         @Override 
         public void onReceiveLocation(BDLocation location) { 
-            if (location.getCity() == null) { 
+           /* if (location.getCity() == null) { 
                 int type = mLocationClient.requestLocation(); 
-            } 
+            } */
             
             station.setLatitude( location.getLatitude() + ""); 
             station.setLongitude(location.getLongitude() + "") ;
