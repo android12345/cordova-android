@@ -4,20 +4,16 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.tencent.mm.sdk.openapi.BaseReq;
-import com.tencent.mm.sdk.openapi.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.SendAuth;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
@@ -88,23 +84,25 @@ public class ShareUtil {
 		String wxAppID = context.getResources().getString(R.string.weixin_key);
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 
-			api = WXAPIFactory.createWXAPI(context, wxAppID, true);
+			api = WXAPIFactory.createWXAPI(context, wxAppID);
 			System.out.println("share Weixin " + wxAppID);
 
 			if (checkInstallwx(context)) {
 
 				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
-				SocializeConfig config = new SocializeConfig();
+				SocializeConfig config = controller.getConfig(); //new SocializeConfig();
 
 				CustomPlatform mWXPlatform = new CustomPlatform(context
 						.getResources().getString(R.string.weixin),
 						R.drawable.weixin_icon);
+				
 				addWxClickListener(context, mWXPlatform, ShareText, imageUrl,
 						false);
 
 				CustomPlatform mWXCircle = new CustomPlatform(context
 						.getResources().getString(R.string.friend),
 						R.drawable.wxcircel);
+				
 				addWxClickListener(context, mWXCircle, ShareText, imageUrl,
 						true);
 
@@ -192,13 +190,12 @@ public class ShareUtil {
 				 * anaService.postShareByCustomPlatform(context, null,
 				 * "wxtimeline", shareMsg, null); }
 				 */
-				wxShareText(text);
-
+				
+				Log.d(TAG, imageUrl + "|" + text);
 				if (imageUrl != null) { // 如果图片不为空就分享图片　
 					wxShareImageThread(imageUrl);
-				}
-				if (text != null && imageUrl != null) {// 图片和文字都不为空的话，默认让分享图片　
-					wxShareImageThread(imageUrl);
+				} else if(text != null){
+					wxShareText(text);
 				}
 
 			}
@@ -261,7 +258,7 @@ public class ShareUtil {
 		return sendReq;
 	}
 
-	private static String buildTransaction(final String type) {
+	private String buildTransaction(final String type) {
 		return (type == null) ? String.valueOf(System.currentTimeMillis())
 				: type + System.currentTimeMillis();
 	}
@@ -290,10 +287,8 @@ public class ShareUtil {
 	 */
 	private void wxShareText(String text) {
 		if (text == null || text.length() == 0) {
-
 			return;
 		}
-
 		// 初始化一个WXTextObject对象
 		WXTextObject textObj = new WXTextObject();
 		textObj.text = text;

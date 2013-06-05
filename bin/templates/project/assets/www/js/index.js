@@ -167,7 +167,7 @@ var app = {
                     //alert(i+"谢谢你") ;
                 }, function(error) {
                     alert(error);
-                }, "GetApplicationInfo", "getApplicationInfo", ["19"]);
+                }, "GetApplicationInfo", "getApplicationInfo", ["20"]);
 
             }
 

@@ -332,10 +332,10 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	public void registerWeixin() {
 		String wxAppID = this.getResources().getString(R.string.weixin_key);
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
-			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID, true);
+			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID);
 			System.out.println("registerWeixin " + wxAppID);
-			api.registerApp(wxAppID);
-
+			boolean result = api.registerApp(wxAppID);
+			Log.d(TAG , "weixin register " + result);
 //			api.handleIntent(((Activity) this).getIntent(),
 //					new IWXAPIEventHandler() {
 //						@Override

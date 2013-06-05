@@ -10,7 +10,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.youdao.dev.domain.LocationBean;
 import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.DeviceUtils;
 
@@ -94,7 +93,7 @@ public class LocationProvider {
 	}
 
 	/**
-	 * 更新位置并保存到SItude中
+	 * 更新位置
 	 */
 	public void updateListener() {
 		if (mLocationClient != null && mLocationClient.isStarted()) {

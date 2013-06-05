@@ -4,13 +4,13 @@ import org.apache.cordova.api.CallbackContext;
 import org.apache.cordova.api.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.youdao.dev.JpushManager;
-import com.youdao.dev.LocationProvider;
 import com.youdao.dev.R;
-import com.youdao.dev.domain.LocationBean;
-import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.DeviceUtils;
 
 /**
@@ -23,7 +23,6 @@ public class GetApplicationInfo extends CordovaPlugin {
 
 	private static final String GETINFO = "getApplicationInfo";
 
-	private LocationProvider provider = null;
 
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -49,29 +48,38 @@ public class GetApplicationInfo extends CordovaPlugin {
 	private void postDatatoServer(String uid) {
 		// provider = new LocationProvider(cordova.getActivity()) ;
 		// LocationBean station = provider.getLocation() ;
-
+//
 		final String uuid = DeviceUtils.getUUID(cordova.getActivity());
-		final String appversion = CommUtils.getVersionCode(cordova
-				.getActivity());
-		final String sdkversion = CommUtils.getAndroidSDKVersion();
-
-		final String operators = CommUtils.getProvidersName(cordova
-				.getActivity());
-		final String phonebrands = CommUtils.getPhoneBrand();
-		final String latitude = null;// station.getLatitude() ;
-		final String longitude = null; // station.getLongitude() ;
 		final String app_id = cordova.getActivity().getResources()
 				.getString(R.string.app_id);
+//		final String appversion = CommUtils.getVersionCode(cordova
+//				.getActivity());
+//		final String sdkversion = CommUtils.getAndroidSDKVersion();
+//
+//		final String operators = CommUtils.getProvidersName(cordova
+//				.getActivity());
+//		final String phonebrands = CommUtils.getPhoneBrand();
+//		final String latitude = null;// station.getLatitude() ;
+//		final String longitude = null; // station.getLongitude() ;
+		
+		
+		JpushManager.getInstance().sendUid(cordova.getActivity(), uid, uuid,app_id, new JsonHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject arg0) {
+				super.onSuccess(arg0);
+				//Log.d("******************************:", arg0.toString()) ;
+			}
+		}) ;
 
-		JpushManager.getInstance().jpushSendData(cordova.getActivity(), app_id,
-				uuid, uid, appversion, sdkversion, latitude, longitude,
-				operators, phonebrands, new JsonHttpResponseHandler() {
-					@Override
-					public void onSuccess(JSONArray object) {
-						super.onSuccess(object);
-
-					}
-				});
+//		JpushManager.getInstance().jpushSendData(cordova.getActivity(), app_id,
+//				uuid, uid, appversion, sdkversion, latitude, longitude,
+//				operators, phonebrands, new JsonHttpResponseHandler() {
+//					@Override
+//					public void onSuccess(JSONArray object) {
+//						super.onSuccess(object);
+//
+//					}
+//				});
 
 	}
 }

@@ -54,4 +54,20 @@ public class JpushManager {
 		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD), params, context, handler) ;
 
 	}
+	
+	/**
+	 * 给服务器传用户id
+	 * @param context
+	 * @param cuid
+	 * @param uuid 手机的唯一标识
+	 * @param appid 应用ID
+	 * @param handler
+	 */
+	public void sendUid(Context context ,String cuid,String uuid,String appid ,AsyncHttpResponseHandler handler){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cuid", cuid) ;
+		params.put("udid", uuid) ;
+		params.put("caid", appid) ;
+		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD), params, context, handler) ;
+	}
 }
