@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -32,8 +31,8 @@ import com.umeng.socialize.controller.listener.SocializeListeners.OnCustomPlatfo
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMediaObject;
-import com.umeng.socialize.media.UMediaObject.MediaType;
 import com.youdao.dev.R;
+import com.youdao.dev.domain.ShareInfo;
 
 /**
  * @author junjun 分享的工具类，集成友盟的分享功能和自定义的平台（如：微信，朋友圈）
@@ -44,6 +43,8 @@ public class ShareUtil {
 	private static final String TAG = "ShareUtil";
 	private Context context;
 	private UMSocialService controller;
+
+	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 	// private static String uMengID ;
 
 	// public static void createUmeng(Activity context,String uMengID){
@@ -73,8 +74,7 @@ public class ShareUtil {
 	 * 
 	 * @param context
 	 */
-	public void share(final Context context, String ShareText,
-			final String imageUrl) {
+	public void share(final Context context, final ShareInfo shareInfo) {
 
 		this.context = context;
 
@@ -82,55 +82,58 @@ public class ShareUtil {
 				RequestType.SOCIAL);
 
 		String wxAppID = context.getResources().getString(R.string.weixin_key);
+		// 检查微信key以及是否安装了微信
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 
 			api = WXAPIFactory.createWXAPI(context, wxAppID);
 			System.out.println("share Weixin " + wxAppID);
-
+			// 检查是否安装了微信
 			if (checkInstallwx(context)) {
-
 				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
-				SocializeConfig config = controller.getConfig(); //new SocializeConfig();
+				SocializeConfig config = controller.getConfig(); // new
+																	// SocializeConfig();
 
 				CustomPlatform mWXPlatform = new CustomPlatform(context
 						.getResources().getString(R.string.weixin),
 						R.drawable.weixin_icon);
-				
-				addWxClickListener(context, mWXPlatform, ShareText, imageUrl,
-						false);
 
-				CustomPlatform mWXCircle = new CustomPlatform(context
-						.getResources().getString(R.string.friend),
-						R.drawable.wxcircel);
-				
-				addWxClickListener(context, mWXCircle, ShareText, imageUrl,
-						true);
+				addWxClickListener(context, mWXPlatform, shareInfo, false);
+				// 检查是否可以分享的朋友圈
+				if (checkSupportTimeline()) {
+					CustomPlatform mWXCircle = new CustomPlatform(context
+							.getResources().getString(R.string.friend),
+							R.drawable.wxcircel);
+
+					addWxClickListener(context, mWXCircle, shareInfo, true);
+					config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
+				}
 
 				config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
-				config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
+
 				// 更新config
 				controller.setConfig(config);
 			}
 		}
 
 		// 预设置分享内容
-		if (ShareText != null) {
-			controller.setShareContent(ShareText);
+		if (shareInfo.getShareText() != null) {
+			controller.setShareContent(shareInfo.getShareText());
 		}
 		// 设置图片
-		if (imageUrl != null) {
+		if (shareInfo.getShareImageUrl() != null) {
 			new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-					Bitmap bitmap = AsyncImageLoader.getBitmap(imageUrl);
+					Bitmap bitmap = AsyncImageLoader.getBitmap(shareInfo
+							.getShareImageUrl());
 					UIHandler.sendMessage(Message.obtain(UIHandler, 1, bitmap));
 				}
 			}).start();
 
 		}
 
-		SnsPostListener mSnsListener = new SnsPostListener() {
+		controller.registerListener(new SnsPostListener() {
 
 			@Override
 			public void onStart() {
@@ -148,13 +151,12 @@ public class ShareUtil {
 					String eMsg = "";
 					if (arg1 == -101)
 						eMsg = "没有授权";
-					Toast.makeText(context, "分享失败[" + arg1 + "] " + eMsg,
-							Toast.LENGTH_SHORT).show();
+					CommUtils
+							.showMessage("分享失败[" + arg1 + "] " + eMsg, context);
 				}
 
 			}
-		};
-		controller.registerListener(mSnsListener);
+		});
 
 		// if(ShareUtil.uMengID !=null){
 		controller.openShare(context, false);
@@ -169,35 +171,23 @@ public class ShareUtil {
 	 * @param flag
 	 */
 	private void addWxClickListener(final Context context,
-			CustomPlatform customPlatform, final String text,
-			final String imageUrl, final boolean flag) {
+			CustomPlatform customPlatform, final ShareInfo shareInfo,
+			final boolean timeline) {
 		customPlatform.clickListener = new OnCustomPlatformClickListener() { // 微信分享按钮监听事件
 			@Override
 			public void onClick(CustomPlatform customPlatform,
 					String shareContent, UMediaObject shareImage) {
 
-				/*
-				 * 微信和朋友圈支持的图文分享－－－url分享，以后有 需求 可以用上 final String des =
-				 * "Weixin";
-				 * //Toast.makeText(context,"静态变量是："+ShareUtil.wxAppID,
-				 * 0).show() ; boolean sendReq = sendByWX(api, shareContent,
-				 * shareImage, flag); if(sendReq){//发送分享统计信息给Umeng
-				 * UMSocialService anaService =
-				 * UMServiceFactory.getUMSocialService(des,
-				 * RequestType.ANALYTICS); UMShareMsg shareMsg = new
-				 * UMShareMsg(); shareMsg.setMediaData(UMRichMedia.toUMRichMedia
-				 * (shareImage)); shareMsg.text = shareContent;
-				 * anaService.postShareByCustomPlatform(context, null,
-				 * "wxtimeline", shareMsg, null); }
-				 */
-				
-				Log.d(TAG, imageUrl + "|" + text);
-				if (imageUrl != null) { // 如果图片不为空就分享图片　
-					wxShareImageThread(imageUrl);
-				} else if(text != null){
-					wxShareText(text);
-				}
+				Log.d(TAG,
+						shareInfo.getShareImageUrl() + "|"
+								+ shareInfo.getShareText());
 
+				wxShareTextAndImage(shareInfo, timeline);
+				/*
+				 * if (imageUrl != null) { // 如果图片不为空就分享图片　
+				 * wxShareImageThread(imageUrl); } else if (text != null) {
+				 * wxShareText(text); }
+				 */
 			}
 
 		};
@@ -229,33 +219,49 @@ public class ShareUtil {
 	 * @param toCircle
 	 * @return 这是一个url分享 可以图文分享 ， 以后可能会用上
 	 */
-	private boolean sendByWX(final IWXAPI api, String shareContent,
-			UMediaObject shareImage, boolean toCircle) {
+	private boolean wxShareTextAndImage(ShareInfo shareInfo, boolean timeline) {
+		Log.d(TAG, shareInfo.toString());
+		Log.d(TAG, "timeline = " + timeline);
 		WXWebpageObject webpage = new WXWebpageObject();
-		// 为什么需要填写url? 当前使用的微信SDK不支持图文分享，使用图文分享必须转成URL分享，所以需要填写一个URL
-		webpage.webpageUrl = "http://youbar.appmars.com";
-		WXMediaMessage msg = new WXMediaMessage(webpage);
-		// msg.title = "仙仙360";
-		msg.description = shareContent;
+		if (shareInfo.getShareUrl() != null) {
+			webpage.webpageUrl = shareInfo.getShareUrl();
+		} else {
+			webpage.webpageUrl = "http://www.xayuodao.com";
+		}
 
-		if (shareImage != null && shareImage.getMediaType() == MediaType.IMAGE) {
-			byte[] b = shareImage.toByte();
-			if (b != null) {
-				Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
+		WXMediaMessage msg = new WXMediaMessage(webpage);
+		msg.title = "来自于";
+		msg.description = shareInfo.getShareText() == null ? "" : shareInfo
+				.getShareText();
+
+		if (shareInfo.getShareImageUrl() != null) {
+
+			Bitmap bmp;
+			try {
+				bmp = BitmapFactory.decodeStream(new URL(shareInfo
+						.getShareImageUrl()).openStream());
 				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE,
 						THUMB_SIZE, true);
 				bmp.recycle();
-				msg.thumbData = Util.bmpToByteArray(thumbBmp, true); // 设置缩略图
+				msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
 		req.transaction = buildTransaction("webpage");
 		req.message = msg;
-		req.scene = toCircle ? SendMessageToWX.Req.WXSceneTimeline
+		req.scene = timeline ? SendMessageToWX.Req.WXSceneTimeline
 				: SendMessageToWX.Req.WXSceneSession;
-		boolean sendReq = api.sendReq(req);
-		return sendReq;
+		return api.sendReq(req);
+
 	}
 
 	private String buildTransaction(final String type) {
@@ -272,12 +278,19 @@ public class ShareUtil {
 		if (!api.isWXAppInstalled()) {
 			CommUtils.showMessage("你还没有安装微信", context);
 			return false;
-		} else if (!api.isWXAppSupportAPI()) {
-			CommUtils.showMessage("你安装的微信版本不支持当前API", context);
-
-			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 检查是否支持朋友圈
+	 * 
+	 * @return
+	 */
+	private boolean checkSupportTimeline() {
+		int wxSdkVersion = api.getWXAppSupportAPI();
+		return wxSdkVersion >= TIMELINE_SUPPORTED_VERSION;
+
 	}
 
 	/**

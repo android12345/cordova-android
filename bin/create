@@ -248,5 +248,5 @@ cp -rf $BUILD_PATH/bin/templates/cordova $PROJECT_PATH
 #cp "$BUILD_PATH"/bin/templates/cordova/clean "$PROJECT_PATH"/cordova/clean
 #cp "$BUILD_PATH"/bin/templates/cordova/log "$PROJECT_PATH"/cordova/log
 #cp "$BUILD_PATH"/bin/templates/cordova/run "$PROJECT_PATH"/cordova/run
-
+echo "" > ${PROJECT_PATH}/RM_FILE-e
 rm `find ${PROJECT_PATH} -name '*-e'`
