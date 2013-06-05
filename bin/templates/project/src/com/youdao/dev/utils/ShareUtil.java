@@ -200,7 +200,6 @@ public class ShareUtil {
 	 */
 	private void wxShareImageThread(final String imageUrl) {
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				wxShareImage(imageUrl);
@@ -219,7 +218,8 @@ public class ShareUtil {
 	 * @param toCircle
 	 * @return 这是一个url分享 可以图文分享 ， 以后可能会用上
 	 */
-	private boolean wxShareTextAndImage(ShareInfo shareInfo, boolean timeline) {
+	private void wxShareTextAndImage(final ShareInfo shareInfo,
+			final boolean timeline) {
 		Log.d(TAG, shareInfo.toString());
 		Log.d(TAG, "timeline = " + timeline);
 		WXWebpageObject webpage = new WXWebpageObject();
@@ -229,38 +229,41 @@ public class ShareUtil {
 			webpage.webpageUrl = "http://www.xayuodao.com";
 		}
 
-		WXMediaMessage msg = new WXMediaMessage(webpage);
+		final WXMediaMessage msg = new WXMediaMessage(webpage);
 		msg.title = "来自于";
 		msg.description = shareInfo.getShareText() == null ? "" : shareInfo
 				.getShareText();
 
 		if (shareInfo.getShareImageUrl() != null) {
 
-			Bitmap bmp;
-			try {
-				bmp = BitmapFactory.decodeStream(new URL(shareInfo
-						.getShareImageUrl()).openStream());
-				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE,
-						THUMB_SIZE, true);
-				bmp.recycle();
-				msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Bitmap bmp;
+						bmp = BitmapFactory.decodeStream(new URL(shareInfo
+								.getShareImageUrl()).openStream());
 
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+						Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp,
+								THUMB_SIZE, THUMB_SIZE, true);
+						bmp.recycle();
+						msg.thumbData = Util.bmpToByteArray(thumbBmp, true);
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					SendMessageToWX.Req req = new SendMessageToWX.Req();
+					req.transaction = buildTransaction("webpage");
+					req.message = msg;
+					req.scene = timeline ? SendMessageToWX.Req.WXSceneTimeline
+							: SendMessageToWX.Req.WXSceneSession;
+					api.sendReq(req);
+				}
+			}).start();
 		}
-
-		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = buildTransaction("webpage");
-		req.message = msg;
-		req.scene = timeline ? SendMessageToWX.Req.WXSceneTimeline
-				: SendMessageToWX.Req.WXSceneSession;
-		return api.sendReq(req);
 
 	}
 
