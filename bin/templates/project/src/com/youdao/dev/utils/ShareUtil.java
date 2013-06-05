@@ -86,7 +86,7 @@ public class ShareUtil {
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 
 			api = WXAPIFactory.createWXAPI(context, wxAppID);
-			System.out.println("share Weixin " + wxAppID);
+			Log.d(TAG, "share Weixin " + wxAppID);
 			// 检查是否安装了微信
 			if (checkInstallwx(context)) {
 				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
@@ -182,7 +182,8 @@ public class ShareUtil {
 						shareInfo.getShareImageUrl() + "|"
 								+ shareInfo.getShareText());
 
-				wxShareTextAndImage(shareInfo, timeline);
+				wxShareTextAndImage(shareInfo, context.getResources()
+						.getString(R.string.app_name), timeline);
 				/*
 				 * if (imageUrl != null) { // 如果图片不为空就分享图片　
 				 * wxShareImageThread(imageUrl); } else if (text != null) {
@@ -216,10 +217,9 @@ public class ShareUtil {
 	 * @param shareImage
 	 *            分享图片
 	 * @param toCircle
-	 * @return 这是一个url分享 可以图文分享 ， 以后可能会用上
 	 */
 	private void wxShareTextAndImage(final ShareInfo shareInfo,
-			final boolean timeline) {
+			final String appName, final boolean timeline) {
 		Log.d(TAG, shareInfo.toString());
 		Log.d(TAG, "timeline = " + timeline);
 		WXWebpageObject webpage = new WXWebpageObject();
@@ -230,7 +230,7 @@ public class ShareUtil {
 		}
 
 		final WXMediaMessage msg = new WXMediaMessage(webpage);
-		msg.title = "来自于";
+		msg.title = "来自于[" + appName + "]应用";
 		msg.description = shareInfo.getShareText() == null ? "" : shareInfo
 				.getShareText();
 

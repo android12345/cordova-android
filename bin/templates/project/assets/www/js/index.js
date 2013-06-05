@@ -88,7 +88,7 @@ var app = {
                     //alert(i+"谢谢你") ;
                 }, function(error) {
                     alert(error);
-                }, "Share", "share", ["你好！","http://www.baidu.com/img/shouye_b5486898c692066bd2cbaeda86d74448.gif","www.baidu.com"]);
+                }, "Share", "share", ["你好！","http://www.xayoudao.com/logo240.png","www.xayoudao.com"]);
 
             }
 

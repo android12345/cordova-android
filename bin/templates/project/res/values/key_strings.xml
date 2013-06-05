@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--
+    
     <string name="umeng_key">umengkey</string>
     <string name="weixin_key">wxkey</string>
     <string name="jpush_key">jpushkey</string>
     <string name="app_id">appid</string>
-    -->
+ 
 
-    <string name="umeng_key">51a305af56240bec12015bf1</string>
-    <string name="weixin_key">wx22db52bb418c2a13</string>
-    <string name="jpush_key">7861271dad77ccda0691213d</string>
-    <string name="app_id">1</string>
+  <!--   <string name="umeng_key">51a305af56240bec12015bf1</string>
+    <string name="weixin_key">wxd930ea5d5a258f4f</string>
+    <string name="jpush_key">a5824d3cca256df4e27aa533</string>
+    <string name="app_id">1</string> -->
 
 </resources>
