@@ -14,9 +14,9 @@ import com.youdao.dev.utils.ShareUtil;
 public class Share extends CordovaPlugin {
 
 	public final String SHARE = "share";
-	ShareUtil shareUtil =  null;
 
 	// private static String uMengID ;
+	private ShareUtil shareUtil = null;
 
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -31,10 +31,11 @@ public class Share extends CordovaPlugin {
 
 					@Override
 					public void run() {
-						if (shareUtil == null){
+						if (shareUtil == null)
 							shareUtil = new ShareUtil();
-						}
+						
 						shareUtil.share(cordova.getActivity(), shareInfo);
+						
 					}
 				};
 				cordova.getActivity().runOnUiThread(runnable); // 在UI线程运行

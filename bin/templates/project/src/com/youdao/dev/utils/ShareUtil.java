@@ -44,9 +44,10 @@ public class ShareUtil {
 	private Context context;
 	private UMSocialService controller;
 
+	private int customPlatformCount = 0;
+
 	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
-	private static boolean isaddWx = true ;
-	private static boolean isaddTimeLine = true ;
+
 	// private static String uMengID ;
 
 	// public static void createUmeng(Activity context,String uMengID){
@@ -71,80 +72,14 @@ public class ShareUtil {
 		};
 	};
 
-	/**
-	 * 友盟的分享功能，支持微信
-	 * 
-	 * @param context
-	 */
-	public void share(final Context context, final ShareInfo shareInfo) {
-
-		this.context = context;
+	public ShareUtil() {
 
 		controller = UMServiceFactory.getUMSocialService("Android",
 				RequestType.SOCIAL);
 
-		String wxAppID = context.getResources().getString(R.string.weixin_key);
-		// 检查微信key以及是否安装了微信
-		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
-
-			api = WXAPIFactory.createWXAPI(context, wxAppID);
-			Log.d(TAG, "share Weixin " + wxAppID);
-			// 检查是否安装了微信
-			if (checkInstallwx(context)) {
-				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
-				SocializeConfig config = controller.getConfig(); // new
-																	// SocializeConfig();
-				
-				CustomPlatform mWXPlatform = new CustomPlatform(context
-						.getResources().getString(R.string.weixin),
-						R.drawable.weixin_icon);
-
-				addWxClickListener(context, mWXPlatform, shareInfo, false);
-				// 检查是否可以分享的朋友圈
-				if (checkSupportTimeline()) {
-					CustomPlatform mWXCircle = new CustomPlatform(context
-							.getResources().getString(R.string.friend),
-							R.drawable.wxcircel);
-
-					addWxClickListener(context, mWXCircle, shareInfo, true);
-					if(isaddTimeLine){
-						config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
-						isaddTimeLine = false ;
-					}
-				}
-				if(isaddWx){
-					config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
-					isaddWx = false ;
-				}
-
-				// 更新config
-				controller.setConfig(config);
-			}
-		}
-
-		// 预设置分享内容
-		if (shareInfo.getShareText() != null) {
-			controller.setShareContent(shareInfo.getShareText());
-		}
-		// 设置图片
-		if (shareInfo.getShareImageUrl() != null) {
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					Bitmap bitmap = AsyncImageLoader.getBitmap(shareInfo
-							.getShareImageUrl());
-					UIHandler.sendMessage(Message.obtain(UIHandler, 1, bitmap));
-				}
-			}).start();
-
-		}
-
 		controller.registerListener(new SnsPostListener() {
-
 			@Override
 			public void onStart() {
-
 				CommUtils.showMessage("开始分享", context);
 			}
 
@@ -164,18 +99,101 @@ public class ShareUtil {
 
 			}
 		});
-		
+	}
+
+	/**
+	 * 友盟的分享功能，支持微信
+	 * 
+	 * @param context
+	 */
+	public void share(final Context context, final ShareInfo shareInfo) {
+
+		this.context = context;
+		// 清理自定义平台的数据
+		clearCustomPlatforms();
+
+		String wxAppID = context.getResources().getString(R.string.weixin_key);
+		// 检查微信key以及是否安装了微信
+		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
+
+			api = WXAPIFactory.createWXAPI(context, wxAppID);
+			Log.d(TAG, "share Weixin " + wxAppID);
+			// 检查是否安装了微信
+			if (checkInstallwx(context)) {
+				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
+				SocializeConfig config = controller.getConfig(); // new
+																	// SocializeConfig();
+
+				CustomPlatform mWXPlatform = new CustomPlatform(context
+						.getResources().getString(R.string.weixin),
+						R.drawable.weixin_icon);
+
+				addWxClickListener(context, mWXPlatform, shareInfo, false);
+				config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
+				customPlatformCount++;
+
+				// 检查是否可以分享的朋友圈
+				if (checkSupportTimeline()) {
+					CustomPlatform mWXCircle = new CustomPlatform(context
+							.getResources().getString(R.string.friend),
+							R.drawable.wxcircel);
+
+					addWxClickListener(context, mWXCircle, shareInfo, true);
+					config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
+					customPlatformCount++;
+				}
+
+				// 更新config
+				controller.setConfig(config);
+			}
+		}
+
+		// 预设置分享内容
+		if (shareInfo.getShareText() != null) {
+			controller.setShareContent(shareInfo.getShareText());
+		}
+ 
+		// 设置图片
+		if (shareInfo.getShareImageUrl() != null) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					Bitmap bitmap = AsyncImageLoader.getBitmap(shareInfo
+							.getShareImageUrl());
+					UIHandler.sendMessage(Message.obtain(UIHandler, 1, bitmap));
+				}
+			}).start();
+
+		}
+
 		// if(ShareUtil.uMengID !=null){
 		controller.openShare(context, false);
 		// }
 	}
 
 	/**
+	 * 清理自定义平台的数据方法
+	 */
+	public void clearCustomPlatforms() {
+		if (controller != null) {
+			SocializeConfig config = controller.getConfig();
+			int total = config.getCustomPlatforms().size();
+			for (int x = 1; x <= customPlatformCount; x++) {
+				config.getCustomPlatforms().remove(total - x);
+			}
+			customPlatformCount = 0;
+		}
+	}
+
+	/**
 	 * 添加微信或朋友圈点击事件
+	 * 
 	 * @param context
 	 * @param customPlatform
 	 * @param shareInfo
-	 * @param timeline  是微信还是朋友圈
+	 * @param timeline
+	 *            是微信还是朋友圈
 	 */
 	private void addWxClickListener(final Context context,
 			CustomPlatform customPlatform, final ShareInfo shareInfo,
@@ -217,9 +235,11 @@ public class ShareUtil {
 
 	/**
 	 * 分享内容和图片方法 包括微信和朋友圈
-	 * @param shareInfo 
+	 * 
+	 * @param shareInfo
 	 * @param appName
-	 * @param timeline 是微信还是朋友圈
+	 * @param timeline
+	 *            是微信还是朋友圈
 	 */
 	private void wxShareTextAndImage(final ShareInfo shareInfo,
 			final String appName, final boolean timeline) {
