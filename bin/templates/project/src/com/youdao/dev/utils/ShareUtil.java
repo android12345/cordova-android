@@ -165,10 +165,10 @@ public class ShareUtil {
 
 	/**
 	 * 添加微信或朋友圈点击事件
-	 * 
 	 * @param context
 	 * @param customPlatform
-	 * @param flag
+	 * @param shareInfo
+	 * @param timeline  是微信还是朋友圈
 	 */
 	private void addWxClickListener(final Context context,
 			CustomPlatform customPlatform, final ShareInfo shareInfo,
@@ -210,13 +210,9 @@ public class ShareUtil {
 
 	/**
 	 * 分享内容和图片方法 包括微信和朋友圈
-	 * 
-	 * @param api
-	 * @param shareContent
-	 *            分享内容
-	 * @param shareImage
-	 *            分享图片
-	 * @param toCircle
+	 * @param shareInfo 
+	 * @param appName
+	 * @param timeline 是微信还是朋友圈
 	 */
 	private void wxShareTextAndImage(final ShareInfo shareInfo,
 			final String appName, final boolean timeline) {
