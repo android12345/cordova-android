@@ -27,7 +27,6 @@ import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -49,16 +48,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.tencent.mm.sdk.openapi.BaseReq;
-import com.tencent.mm.sdk.openapi.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.SendAuth;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.youdao.dev.domain.LocationBean;
 import com.youdao.dev.utils.DeviceUtils;
 import com.youdao.dev.utils.NetWorkUtils;
-import com.youdao.dev.utils.ShareUtil;
 
 public class DevActivity extends DroidGap implements OnClickListener {
 
@@ -85,6 +78,11 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 	private static SharedPreferences preferences;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.apache.cordova.DroidGap#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,10 +91,6 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		JpushReceiver.activity = this;
 
 		Intent intent = this.getIntent();
-		// 取得JpushReceiver　传过来的附加字段的值
-		String uricontent = intent.getStringExtra("uri");
-
-		Log.d(TAG, "推送消息要打开的地址:" + Config.getStartUrl() + "?" + uricontent);
 
 		setFullScreen();
 
@@ -108,22 +102,27 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		registerWeixin();
 
-		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
-			if (uricontent != null) {
-				super.loadUrl(Config.getStartUrl() + "?" + uricontent, 120000);
-			} else {
-				super.loadUrl(Config.getStartUrl(), 120000);
-			}
-			cancelFullscreen();
-		} else {
-			if (uricontent != null) {
-				super.loadUrl(Config.getStartUrl() + "?" + uricontent);
-			} else {
-				super.loadUrl(Config.getStartUrl());
-			}
-			cancelFullscreen();
-		}
+		// 取得JpushReceiver　传过来的附加字段的值
+		String uricontent = intent.getStringExtra("uri");
+		Log.d(TAG, "推送消息要打开的地址:" + Config.getStartUrl() + "?" + uricontent);
+		String url = Config.getStartUrl() + "?"
+				+ (uricontent == null ? "" : uricontent);
 
+		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
+			super.loadUrl(url, 120000);
+		} else {
+			super.loadUrl(url);
+		}
+		// cancelFullscreen();
+
+	}
+
+	/**
+	 * Removes the Dialog that displays the splash screen
+	 */
+	public void removeSplashScreen() {
+		super.removeSplashScreen();
+		cancelFullscreen();
 	}
 
 	/**
@@ -188,7 +187,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		// Log.d(TAG, cacheVersionName + "//" + versionName);
 
-		if (!versionName.equals(cacheVersionName)) {
+		if (!cacheVersionName.equals(versionName)) {
 
 			// Log.d(TAG, "equals = " + !versionName.equals(cacheVersionName));
 
@@ -214,6 +213,17 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+	}
+
+	/**
+	 * 取消全屏方法
+	 */
+	public void cancelFullscreen() {
+		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+		attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setAttributes(attrs);
+		getWindow()
+				.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 	}
 
 	@SuppressLint("NewApi")
@@ -254,15 +264,15 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 * @return
 	 */
 	private String getVersion() {
-		String appVersion = null;
+
 		PackageManager manager = this.getPackageManager();
 		try {
 			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-			appVersion = info.versionName; // 版本名，versionCode同理
+			return info.versionName; // 版本名，versionCode同理
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
-		return appVersion;
+		return null;
 	}
 
 	@Override
@@ -314,17 +324,6 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	}
 
 	/**
-	 * 取消全屏方法
-	 */
-	public void cancelFullscreen() {
-		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
-		attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().setAttributes(attrs);
-		getWindow()
-				.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-	}
-
-	/**
 	 * 创建和注册AppID到微信
 	 * 
 	 * @param context
@@ -333,21 +332,21 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		String wxAppID = this.getResources().getString(R.string.weixin_key);
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID);
-			Log.d(TAG ,"registerWeixin " + wxAppID);
+			Log.d(TAG, "registerWeixin " + wxAppID);
 			boolean result = api.registerApp(wxAppID);
-			Log.d(TAG , "weixin register " + result);
-//			api.handleIntent(((Activity) this).getIntent(),
-//					new IWXAPIEventHandler() {
-//						@Override
-//						public void onResp(BaseResp arg0) {
-//							SendAuth.Resp resp = (SendAuth.Resp) arg0;
-//							System.out.println(resp.userName);
-//						}
-//
-//						@Override
-//						public void onReq(BaseReq arg0) {
-//						}
-//					});
+			Log.d(TAG, "weixin register " + result);
+			// api.handleIntent(((Activity) this).getIntent(),
+			// new IWXAPIEventHandler() {
+			// @Override
+			// public void onResp(BaseResp arg0) {
+			// SendAuth.Resp resp = (SendAuth.Resp) arg0;
+			// System.out.println(resp.userName);
+			// }
+			//
+			// @Override
+			// public void onReq(BaseReq arg0) {
+			// }
+			// });
 		}
 	}
 }

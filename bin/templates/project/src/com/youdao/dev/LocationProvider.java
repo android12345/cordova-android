@@ -56,7 +56,7 @@ public class LocationProvider {
 							@Override
 							public void onSuccess(JSONObject arg0) {
 								super.onSuccess(arg0);
-								Log.d("LocationProvider.sendData :", arg0.toString());
+//								Log.d("LocationProvider.sendData :", arg0.toString());
 							}
 						});
 
@@ -76,6 +76,7 @@ public class LocationProvider {
 		option.setPriority(LocationClientOption.NetWorkFirst); // 设置网络优先
 		option.setProdName("youdao"); // 设置产品线名称
 		option.disableCache(true);
+		
 		mLocationClient.setLocOption(option);
 		mLocationClient.registerLocationListener(listener);
 
