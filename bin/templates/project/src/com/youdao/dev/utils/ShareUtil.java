@@ -45,6 +45,8 @@ public class ShareUtil {
 	private UMSocialService controller;
 
 	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
+	private static boolean isaddWx = true ;
+	private static boolean isaddTimeLine = true ;
 	// private static String uMengID ;
 
 	// public static void createUmeng(Activity context,String uMengID){
@@ -92,7 +94,7 @@ public class ShareUtil {
 				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
 				SocializeConfig config = controller.getConfig(); // new
 																	// SocializeConfig();
-
+				
 				CustomPlatform mWXPlatform = new CustomPlatform(context
 						.getResources().getString(R.string.weixin),
 						R.drawable.weixin_icon);
@@ -105,10 +107,15 @@ public class ShareUtil {
 							R.drawable.wxcircel);
 
 					addWxClickListener(context, mWXCircle, shareInfo, true);
-					config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
+					if(isaddTimeLine){
+						config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
+						isaddTimeLine = false ;
+					}
 				}
-
-				config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
+				if(isaddWx){
+					config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
+					isaddWx = false ;
+				}
 
 				// 更新config
 				controller.setConfig(config);
