@@ -164,7 +164,7 @@ public class ShareUtil {
 
 			}
 		});
-
+		
 		// if(ShareUtil.uMengID !=null){
 		controller.openShare(context, false);
 		// }

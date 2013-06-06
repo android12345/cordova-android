@@ -13,7 +13,7 @@ import android.net.Uri;
  *
  */
 public class Redirect extends CordovaPlugin {
-	private final static String CALL = "callNumber" ;
+	private final  String CALL = "callNumber" ;
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
