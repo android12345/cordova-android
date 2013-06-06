@@ -85,6 +85,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
+		setFullScreen();
+		
 		super.onCreate(savedInstanceState);
 		Log.d("设备的UUID:", DeviceUtils.getUUID(this));
 
@@ -92,7 +95,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		Intent intent = this.getIntent();
 
-		setFullScreen();
+		
 
 		displaySplash();
 
@@ -122,7 +125,15 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 */
 	public void removeSplashScreen() {
 		super.removeSplashScreen();
-		cancelFullscreen();
+		this.runOnUiThread(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				cancelFullscreen();
+			}
+			
+		});
 	}
 
 	/**
@@ -224,20 +235,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		getWindow().setAttributes(attrs);
 		getWindow()
 				.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
 	}
 
-	@SuppressLint("NewApi")
-	/**
-	 * 解决2.3以上的严格模式到导致的错误
-	 */
-	// private void resoveStrictMode() {
-	// StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-	// .detectDiskReads().detectDiskWrites().detectNetwork()
-	// .penaltyLog().build());
-	// StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-	// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
-	// .build());
-	// }
 	/**
 	 * 创建新手引导布局在root上
 	 */

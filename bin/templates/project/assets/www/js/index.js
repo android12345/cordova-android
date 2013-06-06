@@ -45,130 +45,132 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+
+        // 页面加载完成时，关闭 splash 界面
+        navigator.splashscreen.hide();
     }
 };
 
-   function record() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "CaptureSound", "audioRecord", ["10"]);
-            }
-
-        
-            function stop() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "CaptureSound", "audioStop", [""]);
-            }
-
-    
-            function play() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "CaptureSound", "play", [""]);
-            }
-
-        
-            function share() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "Share", "share", ["你好！","http://www.xayoudao.com/logo240.png","www.xayoudao.com"]);
-
-            }
-
-        
-            function registerwx() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "Share", "registerWeixin", ["wx781a582436c6b974"]);
-
-            }
-            
-             function registerum() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "Share", "registerUmeng", ["508a19595270157a6f00005e"]);
-
-            }
-            
-               function update() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "CheckVersion", "checkVersion", [""]);
-
-            }
-            
-            function getuuid() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "GetUUID", "getUUID", [""]);
-
-            }
-                 function toast() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "Messages", "showMsg", ["测试显示消息插件"]);
-
-            }
-
-  function callphone() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "Redirect", "callNumber", ["123456789414"]);
-
-            }
-            
-            
-            
-  function passuid() {
-                cordova.exec(function(winParam) {
-                    alert(winParam);
-                    //var i = winParam ;
-                    //alert(i+"谢谢你") ;
-                }, function(error) {
-                    alert(error);
-                }, "GetApplicationInfo", "getApplicationInfo", ["20"]);
-
-            }
+function record() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "CaptureSound", "audioRecord", ["10"]);
+}
 
 
+function stop() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "CaptureSound", "audioStop", [""]);
+}
+
+
+function play() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "CaptureSound", "play", [""]);
+}
+
+
+function share() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Share", "share", ["你好！", "http://www.xayoudao.com/logo240.png", "www.xayoudao.com"]);
+
+}
+
+
+function registerwx() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Share", "registerWeixin", ["wx781a582436c6b974"]);
+
+}
+
+function registerum() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Share", "registerUmeng", ["508a19595270157a6f00005e"]);
+
+}
+
+function update() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "CheckVersion", "checkVersion", [""]);
+
+}
+
+function getuuid() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "GetUUID", "getUUID", [""]);
+
+}
+
+function toast() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Messages", "showMsg", ["测试显示消息插件"]);
+
+}
+
+function callphone() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Redirect", "callNumber", ["123456789414"]);
+
+}
+
+
+
+function passuid() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "GetApplicationInfo", "getApplicationInfo", ["20"]);
+
+}
