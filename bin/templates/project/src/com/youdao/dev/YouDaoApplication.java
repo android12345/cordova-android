@@ -13,7 +13,6 @@ import cn.jpush.android.api.JPushInterface;
 public class YouDaoApplication extends Application {
 	   private static final String TAG = "YouDaoApplication";
 	   
-		private LocationProvider locationProvider =  null ;
 
 	    @Override
 	    public void onCreate() {
@@ -25,11 +24,6 @@ public class YouDaoApplication extends Application {
 	         JPushInterface.init(this);     		// 初始化 JPush
 	         JPushInterface.setAliasAndTags(this, DeviceUtils.getUUID(this), null) ;//极光设置别名
 	         
-	         locationProvider =  new LocationProvider(this) ;
-	         
-	         locationProvider.startLocation() ;
-	         
 	    }
-	    
 		
 }

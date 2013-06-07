@@ -29,7 +29,7 @@ public class CommUtils {
 		View layout = inflater.inflate(R.layout.toast, null);
 		LinearLayout root = (LinearLayout) layout
 				.findViewById(R.id.toast_layout_root);
-		root.getBackground().setAlpha(120);// 0~255透明度值
+		root.getBackground().setAlpha(150);// 0~255透明度值
 		
 		TextView text = (TextView) layout.findViewById(R.id.text);
 		text.setText(toastContent);

@@ -26,7 +26,6 @@ import java.util.List;
 import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,6 +47,8 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.youdao.dev.utils.DeviceUtils;
@@ -56,6 +57,7 @@ import com.youdao.dev.utils.NetWorkUtils;
 public class DevActivity extends DroidGap implements OnClickListener {
 
 	private BroadcastReceiver connectionReceiver;
+	private LocationProvider locationProvider =  null ;
 
 	private static Handler handler = new Handler() { // 线程
 		public void handleMessage(android.os.Message msg) {
@@ -94,8 +96,10 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		JpushReceiver.activity = this;
 
 		Intent intent = this.getIntent();
-
-		
+        
+        locationProvider =  new LocationProvider(this) ;
+        
+        locationProvider.startLocation() ;
 
 		displaySplash();
 
