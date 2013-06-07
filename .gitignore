@@ -32,3 +32,4 @@ Desktop.ini
 # IntelliJ IDEA files
 *.iml
 .idea
+bin/templates/cordova/appinfo.jar

@@ -2,7 +2,7 @@
 
 // commit 360bd3e65c33ce4f01e2efb82d641a565ef3c333
 
-// File generated at :: Fri Apr 19 2013 17:55:18 GMT-0700 (PDT)
+// File generated at :: Fri Apr 19 2013 17:55:18 GMT-0700 (PDT) 有道软件
 
 /*
  Licensed to the Apache Software Foundation (ASF) under one

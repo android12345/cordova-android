@@ -45,7 +45,8 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-
+        var content = document.getElementById("content");
+        content.innerHTML = "华为测试！huawei test";
         // 页面加载完成时，关闭 splash 界面
         navigator.splashscreen.hide();
     }
