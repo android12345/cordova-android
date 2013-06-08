@@ -51,6 +51,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 import com.youdao.dev.utils.DeviceUtils;
 import com.youdao.dev.utils.NetWorkUtils;
 
@@ -353,4 +354,14 @@ public class DevActivity extends DroidGap implements OnClickListener {
 			// });
 		}
 	}
+	public void onResume() {
+	    super.onResume();
+	    MobclickAgent.onResume(this);
+	}
+	public void onPause() {
+	    super.onPause();
+	    MobclickAgent.onPause(this);
+	}
+	
+	
 }
