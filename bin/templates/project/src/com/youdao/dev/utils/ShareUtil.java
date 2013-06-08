@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -110,7 +111,7 @@ public class ShareUtil {
 
 		this.context = context;
 		// 清理自定义平台的数据
-		clearCustomPlatforms();
+//		clearCustomPlatforms();
 
 		String wxAppID = context.getResources().getString(R.string.weixin_key);
 		// 检查微信key以及是否安装了微信
