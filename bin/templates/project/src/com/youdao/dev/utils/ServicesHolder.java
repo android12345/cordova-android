@@ -1,8 +1,8 @@
 package com.youdao.dev.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.youdao.dev.R;
 
+import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -34,12 +34,14 @@ public class ServicesHolder {
 	static int environment = 1;
 	public static SparseArray<String> env;
 	public static SparseArray<String> mapmodule = null;
-	static {
 
+	static {
+		
 		env = new SparseArray<String>();
 
-		env.put(DEVELOPMENT, "http://cloud.appmars.com");
+		//env.put(DEVELOPMENT, "http://cloud.appmars.com");
 		env.put(PRODUCTION, "http://cloud.appmars.com");
+		
 		// env.put(TEST, "http://test.ent.appmars.com");
 
 		mapmodule = new SparseArray<String>();
@@ -53,9 +55,9 @@ public class ServicesHolder {
 	/*
 	 * environment决定返回那个服务器 module决定返回那个模块
 	 */
-	public static String api(int module) {
+	public static String api(int module,Context context) {
 		String path;
-		path = env.get(environment) + mapmodule.get(module);
+		path = context.getResources().getString(R.string.commom_app_url) + mapmodule.get(module);
 		Log.d("path", path);
 		return path;
 	}
