@@ -18,7 +18,17 @@
 #!/bin/bash
 
 set -e
-
+LANG=C
 CORDOVA_PATH=$( cd "$( dirname "$0" )" && pwd )
+PROJECT_PATH=$( cd "$( dirname "$0" )/.." && pwd )
+
+if [ -f "$PROJECT_PATH/AndroidManifest.xml" ]; then
+
+    sed -i -e "s/debuggable=\".*\"/debuggable=\"false\"/g" "$PROJECT_PATH/AndroidManifest.xml"
+
+    rm `find $PROJECT_PATH -name '*-e'`
+    echo "updated debuggable to false"
+fi
+
 
 bash "$CORDOVA_PATH"/cordova release
