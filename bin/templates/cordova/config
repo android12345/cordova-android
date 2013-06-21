@@ -26,6 +26,7 @@ PROJECT_PATH=$( cd "$( dirname "$0" )/.." && pwd )
 if [ -f "$PROJECT_PATH/displayname" ]; then
     DISPLAY_NAME=$(cat $PROJECT_PATH/displayname | head -n 1)
     sed -i -e "s/app_name\">.*</app_name\">$DISPLAY_NAME</g" "$PROJECT_PATH/res/values/strings.xml"
+    echo 'test' > $PROJECT_PATH/space-e
     rm `find $PROJECT_PATH -name '*-e'`
     echo "updated App Name params to $DISPLAY_NAME"
 fi
