@@ -20,7 +20,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.youdao.dev"
     android:hardwareAccelerated="true"
-    android:versionCode="@string/versionCode"
+    android:versionCode="@integer/versionCode"
     android:versionName="@string/versionName"
     android:windowSoftInputMode="adjustPan" >
 

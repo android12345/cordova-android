@@ -1,10 +1,12 @@
 package com.youdao.dev.utils;
 
-import com.youdao.dev.R;
+
+import com.youdao.dev.BuildConfig;
 
 import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.Toast;
 
 /*
  * 服务器api地址的管理类
@@ -28,8 +30,8 @@ public class ServicesHolder {
 	public static final int GETAPP_INFO = 2;
 	public static final int PUSH_ANDROID_ADD = 3;
 
-	public static int DEVELOPMENT = 0;
-	public static int PRODUCTION = 1;
+	public static int DEBUGE = 0;
+	public static int RELEASE = 1;
 	public static int TEST = 2;
 	static int environment = 1;
 	public static SparseArray<String> env;
@@ -40,8 +42,8 @@ public class ServicesHolder {
 		env = new SparseArray<String>();
 
 		//env.put(DEVELOPMENT, "http://cloud.appmars.com");
-		env.put(PRODUCTION, "http://cloud.appmars.com");
-		
+		env.put(DEBUGE, "http://cloud.appmars.com");
+		env.put(RELEASE, "http://115.28.36.217") ;
 		// env.put(TEST, "http://test.ent.appmars.com");
 
 		mapmodule = new SparseArray<String>();
@@ -55,9 +57,17 @@ public class ServicesHolder {
 	/*
 	 * environment决定返回那个服务器 module决定返回那个模块
 	 */
-	public static String api(int module,Context context) {
+	public static String api(int module) {
 		String path;
-		path = context.getResources().getString(R.string.commom_app_url) + mapmodule.get(module);
+		Log.d("BuildConfig.DEBUG", BuildConfig.DEBUG+"");
+		if(BuildConfig.DEBUG){
+			path = env.get(DEBUGE) + mapmodule.get(module);	
+			Log.d("DEBUGE path", path);
+		}else{
+			path = env.get(RELEASE) + mapmodule.get(module);
+			Log.d(" RELEASE path", path);
+		}
+		//Toast.makeText(context, "ddd:"+path, 0).show() ;
 		Log.d("path", path);
 		return path;
 	}

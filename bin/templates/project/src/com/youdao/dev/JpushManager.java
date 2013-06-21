@@ -51,7 +51,7 @@ public class JpushManager {
 		params.put("operator", operators) ;
 		params.put("brand", phonebrands) ;
 		
-		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD,context), params, context, handler) ;
+		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD), params, context, handler) ;
 
 	}
 	
@@ -68,6 +68,6 @@ public class JpushManager {
 		params.put("cuid", cuid) ;
 		params.put("udid", uuid) ;
 		params.put("caid", appid) ;
-		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD,context), params, context, handler) ;
+		HttpClientUtils.post(ServicesHolder.api(ServicesHolder.PUSH_ANDROID_ADD), params, context, handler) ;
 	}
 }
