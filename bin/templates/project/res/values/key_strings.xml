@@ -6,6 +6,8 @@
     <string name="weixin_key">wxkey</string>
     <string name="jpush_key">jpushkey</string>
     <string name="app_id">appid</string>
+    <string name="versionCode">1</string>
+    <string name="versionName">1.0</string>
 	 <string name="commom_app_url">domainurl</string> 
  	
  	 <!-- <string name="commom_app_url">http://cloud.appmars.com</string>  -->
