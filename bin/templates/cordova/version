@@ -33,7 +33,7 @@ if [ "$1" != "" ]; then
 	echo "Update file $PROJECT_PATH/AndroidManifest.xml to $1."
 	VERSION=${1//./}
 	sed -i -e "s/versionCode=\".*\"/versionCode=\"${VERSION}\"/g" "$PROJECT_PATH/AndroidManifest.xml"
-	sed -i -e "s/versionName=\".*\"/versionCode=\"$1\"/g" "$PROJECT_PATH/AndroidManifest.xml"
+	sed -i -e "s/versionName=\".*\"/versionName=\"$1\"/g" "$PROJECT_PATH/AndroidManifest.xml"
 	echo 'test' > $PROJECT_PATH/space-e
 	rm -rf "$PROJECT_PATH/AndroidManifest.xml-e"
 	echo "updated version to $1 !"
