@@ -1,12 +1,10 @@
 package com.youdao.dev.utils;
 
 
-import com.youdao.dev.BuildConfig;
-
-import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.Toast;
+
+import com.youdao.dev.BuildConfig;
 
 /*
  * 服务器api地址的管理类
