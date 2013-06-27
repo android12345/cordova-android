@@ -138,9 +138,14 @@
             android:exported="true"
             android:process=":DownloadingService" >
 
-            <!-- umeng config end -->
+           
         </service>
         
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+         <!-- umeng config end -->
         
         
         <!-- jpush config start -->

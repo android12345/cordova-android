@@ -30,9 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:singleLine="true"
-                android:textColor="#ff000000"
-                android:textSize="14sp"
-                android:text="" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -60,7 +58,6 @@
                     android:layout_height="25dp"
                     android:background="@drawable/umeng_common_gradient_orange"
                     android:singleLine="true"
-                    android:textColor="#ffffff"
                     android:textSize="12sp" 
                     android:text="@string/umeng_common_action_pause"/>
 
@@ -73,7 +70,6 @@
                     android:background="@drawable/umeng_common_gradient_red"
                     android:singleLine="true"
                     android:text="@string/umeng_common_action_cancel"
-                    android:textColor="#ffffff"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -94,8 +90,6 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
-                    android:textColor="#ff000000"
-                    android:text=""
                     android:textSize="18sp" />
 
                 <TextView
@@ -104,10 +98,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:singleLine="true"
-                    android:textColor="#ff000000"
                     android:textSize="12sp"
-                    android:textStyle="italic" 
-                    android:text=""/>
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <ProgressBar

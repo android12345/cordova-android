@@ -61,7 +61,7 @@ public class CheckVersion extends CordovaPlugin {
 	}
 
 	private void update(final CallbackContext callbackContext) {
-		
+		//com.umeng.common.Log.LOG = true;
 		UmengUpdateAgent.update(this.cordova.getActivity());
 		UmengUpdateAgent.setUpdateAutoPopup(false);
 		UmengUpdateAgent.setUpdateOnlyWifi(false) ;
