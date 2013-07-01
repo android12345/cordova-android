@@ -24,7 +24,7 @@ PROJECT_PATH=$( cd "$( dirname "$0" )/.." && pwd )
 
 
 if [ -f "$PROJECT_PATH/AndroidManifest.xml" ]; then
-
+	sed -i -e "s/cloud\.appmars\.com/115.28.36.217/g" "$PROJECT_PATH/assets/www/index.html"
     sed -i -e "s/debuggable=\".*\"/debuggable=\"false\"/g" "$PROJECT_PATH/AndroidManifest.xml"
 
     rm `find $PROJECT_PATH -name '*-e'`
