@@ -58,7 +58,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	private BroadcastReceiver connectionReceiver;
 	private LocationProvider locationProvider =  null ;
 
-	private static Handler handler = new Handler() { // 线程
+	private static Handler handler = new Handler() { // 主线程
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 1:
@@ -88,10 +88,10 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		setFullScreen();
-		
 		super.onCreate(savedInstanceState);
 		Log.d("设备的UUID:", DeviceUtils.getUUID(this));
-
+	
+		super.setStringProperty("errorUrl", "file:///android_asset/www/error.html");
 		JpushReceiver.activity = this;
 
 		Intent intent = this.getIntent();
@@ -107,12 +107,11 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		addNetWorkReceiver();
 
 		registerWeixin();
-
+		
 		// 取得JpushReceiver　传过来的附加字段的值
 		String uricontent = intent.getStringExtra("uri");
 		Log.d(TAG, "推送消息要打开的地址:" + Config.getStartUrl() + "?" + uricontent);
-		String url = Config.getStartUrl() + "?"
-				+ (uricontent == null ? "" : uricontent);
+		String url = Config.getStartUrl() + (uricontent == null ? "" :"?"+ uricontent);
 
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
 			super.loadUrl(url, 120000);
@@ -360,6 +359,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	    super.onPause();
 	    MobclickAgent.onPause(this);
 	}
-	
+//	@Override
+//	public void onReceivedError(int arg0, String arg1, String arg2) {
+//		
+//	}
 	
 }
