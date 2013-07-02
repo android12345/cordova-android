@@ -90,15 +90,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setFullScreen();
 		super.onCreate(savedInstanceState);
 		//Log.d("设备的UUID:", DeviceUtils.getUUID(this));
-	//	super.init() ;
 
 		File cacha = this.getCacheDir();
-//		Log.d("====" , "===++++++++++" + cacha.getParent() + "/app_database" );
-//		clearCacheFolder(new File( cacha.getParent() + "/app_database"));
-//		//clearCacheFolder(new File( cacha.getParent() + "/databases" ));
-		//clearCacheFolder(new File( cacha.getParent() + "/app_database"));
-		
-		//clearCacheFolder(cacha.getParentFile()) ;
+
 		super.setStringProperty("errorUrl", "file:///android_asset/www/error.html");
 		JpushReceiver.activity = this;
 
@@ -120,7 +114,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		String uricontent = intent.getStringExtra("uri");
 		
 		String url = Config.getStartUrl() + (uricontent == null ? "" :"?"+ uricontent);
-		Log.d(TAG, "推送消息要打开的地址:" + url);
+		//Log.d(TAG, "推送消息要打开的地址:" + url);
 
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
 			super.loadUrl(url, 120000);

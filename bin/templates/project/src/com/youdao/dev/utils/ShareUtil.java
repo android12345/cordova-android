@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
@@ -117,7 +116,7 @@ public class ShareUtil {
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 
 			api = WXAPIFactory.createWXAPI(context, wxAppID);
-			Log.d(TAG, "share Weixin " + wxAppID);
+			//Log.d(TAG, "share Weixin " + wxAppID);
 			// 检查是否安装了微信
 			if (checkInstallwx(context)) {
 				// Log.d(TAG, "当前线程弹出："+Thread.currentThread() );
@@ -203,9 +202,9 @@ public class ShareUtil {
 			public void onClick(CustomPlatform customPlatform,
 					String shareContent, UMediaObject shareImage) {
 
-				Log.d(TAG,
-						shareInfo.getShareImageUrl() + "|"
-								+ shareInfo.getShareText());
+//				Log.d(TAG,
+//						shareInfo.getShareImageUrl() + "|"
+//								+ shareInfo.getShareText());
 
 				wxShareTextAndImage(shareInfo, context.getResources()
 						.getString(R.string.app_name), timeline);
@@ -243,8 +242,8 @@ public class ShareUtil {
 	 */
 	private void wxShareTextAndImage(final ShareInfo shareInfo,
 			final String appName, final boolean timeline) {
-		Log.d(TAG, shareInfo.toString());
-		Log.d(TAG, "timeline = " + timeline);
+//		Log.d(TAG, shareInfo.toString());
+//		Log.d(TAG, "timeline = " + timeline);
 		WXWebpageObject webpage = new WXWebpageObject();
 		if (shareInfo.getShareUrl() != null) {
 			webpage.webpageUrl = shareInfo.getShareUrl();

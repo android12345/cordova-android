@@ -1,10 +1,9 @@
 package com.youdao.dev;
 
-import com.youdao.dev.utils.DeviceUtils;
-
 import android.app.Application;
-import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
+
+import com.youdao.dev.utils.DeviceUtils;
 /**
  * For developer startup JPush SDK  和取得　经纬度初始化
  * 
@@ -16,7 +15,7 @@ public class YouDaoApplication extends Application {
 
 	    @Override
 	    public void onCreate() {
-	    	 Log.d(TAG, "onCreate");
+	    	// Log.d(TAG, "onCreate");
 	         super.onCreate();
 	 		
 	         JPushInterface.setDebugMode(true); 	//设置开启日志,发布时请关闭日志

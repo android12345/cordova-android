@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.youdao.dev.JpushManager;
 import com.youdao.dev.R;
@@ -46,21 +44,11 @@ public class GetApplicationInfo extends CordovaPlugin {
 	 * @param uid
 	 */
 	private void postDatatoServer(String uid) {
-		// provider = new LocationProvider(cordova.getActivity()) ;
-		// LocationBean station = provider.getLocation() ;
-//
+		
 		final String uuid = DeviceUtils.getUUID(cordova.getActivity());
 		final String app_id = cordova.getActivity().getResources()
 				.getString(R.string.app_id);
-//		final String appversion = CommUtils.getVersionCode(cordova
-//				.getActivity());
-//		final String sdkversion = CommUtils.getAndroidSDKVersion();
-//
-//		final String operators = CommUtils.getProvidersName(cordova
-//				.getActivity());
-//		final String phonebrands = CommUtils.getPhoneBrand();
-//		final String latitude = null;// station.getLatitude() ;
-//		final String longitude = null; // station.getLongitude() ;
+
 		
 		
 		JpushManager.getInstance().sendUid(cordova.getActivity(), uid, uuid,app_id, new JsonHttpResponseHandler(){
@@ -71,15 +59,7 @@ public class GetApplicationInfo extends CordovaPlugin {
 			}
 		}) ;
 
-//		JpushManager.getInstance().jpushSendData(cordova.getActivity(), app_id,
-//				uuid, uid, appversion, sdkversion, latitude, longitude,
-//				operators, phonebrands, new JsonHttpResponseHandler() {
-//					@Override
-//					public void onSuccess(JSONArray object) {
-//						super.onSuccess(object);
-//
-//					}
-//				});
+
 
 	}
 }
