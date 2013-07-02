@@ -19,6 +19,7 @@
 
 package com.youdao.dev;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,6 @@ import android.view.WindowManager;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
-import com.youdao.dev.utils.DeviceUtils;
 import com.youdao.dev.utils.NetWorkUtils;
 
 public class DevActivity extends DroidGap implements OnClickListener {
@@ -89,8 +89,16 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		
 		setFullScreen();
 		super.onCreate(savedInstanceState);
-		Log.d("设备的UUID:", DeviceUtils.getUUID(this));
-	
+		//Log.d("设备的UUID:", DeviceUtils.getUUID(this));
+	//	super.init() ;
+
+		File cacha = this.getCacheDir();
+//		Log.d("====" , "===++++++++++" + cacha.getParent() + "/app_database" );
+//		clearCacheFolder(new File( cacha.getParent() + "/app_database"));
+//		//clearCacheFolder(new File( cacha.getParent() + "/databases" ));
+		//clearCacheFolder(new File( cacha.getParent() + "/app_database"));
+		
+		//clearCacheFolder(cacha.getParentFile()) ;
 		super.setStringProperty("errorUrl", "file:///android_asset/www/error.html");
 		JpushReceiver.activity = this;
 
@@ -102,7 +110,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		displaySplash();
 
-		displayGuide();
+		displayGuide(cacha);
 
 		addNetWorkReceiver();
 
@@ -110,8 +118,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		
 		// 取得JpushReceiver　传过来的附加字段的值
 		String uricontent = intent.getStringExtra("uri");
-		Log.d(TAG, "推送消息要打开的地址:" + Config.getStartUrl() + "?" + uricontent);
+		
 		String url = Config.getStartUrl() + (uricontent == null ? "" :"?"+ uricontent);
+		Log.d(TAG, "推送消息要打开的地址:" + url);
 
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
 			super.loadUrl(url, 120000);
@@ -121,7 +130,26 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		// cancelFullscreen();
 
 	}
-
+	/**
+	 * 删除手机应用的缓存文件
+	 * @param dir
+	 */
+	private void clearCacheFolder(File dir) {
+		
+	        
+	    if (dir!= null && dir.isDirectory()) {             
+	        try {                
+	            for (File child:dir.listFiles()) {    
+	                if (child.isDirectory()) {              
+	                     clearCacheFolder(child);      
+	                }    
+	                 child.delete() ;   
+	            }             
+	        } catch(Exception e) {       
+	            e.printStackTrace();    
+	        }     
+	    }   
+	}  
 	/**
 	 * Removes the Dialog that displays the splash screen
 	 */
@@ -131,7 +159,6 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				cancelFullscreen();
 			}
 			
@@ -153,19 +180,11 @@ public class DevActivity extends DroidGap implements OnClickListener {
 						.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 				if (!mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
-					// unconnect network
-					// mNetWorkState = NetworkUtils.NETWORN_NONE;
+					
 					NetWorkUtils.setNetWorkDialog(DevActivity.this);
 				}
 
-				// else {
-				// if (mobNetInfo.isConnected()) {
-				// mNetWorkState = NetworkUtils.NETWORN_MOBILE;
-				// } else if (wifiNetInfo.isConnected()) {
-				// mNetWorkState = NetworkUtils.NETWORN_WIFI;
-				// }
-				// // connect network
-				// }
+				
 			}
 
 		};
@@ -177,7 +196,8 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 * 首先判断drawable目录下是否有名为spalsh.png的图片，如果有就设置spalsh ，如果没有就不设置
 	 */
 	private void displaySplash() {
-
+		
+		//super.appView.clearCache(true); 
 		splashId = getResources().getIdentifier("splash", "drawable",
 				this.getPackageName());
 		if (splashId != 0) {
@@ -191,7 +211,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 * @throws IOException
 	 */
 
-	private void displayGuide() {
+	private void displayGuide(File cache) {
 
 		preferences = getSharedPreferences("currentVersion", MODE_PRIVATE);
 
@@ -203,6 +223,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		if (!cacheVersionName.equals(versionName)) {
 
 			// Log.d(TAG, "equals = " + !versionName.equals(cacheVersionName));
+			
+			clearCacheFolder(new File( cache.getParent() + "/app_database"));
+			
 
 			handler.sendMessage(Message.obtain(handler, 1, versionName));
 
@@ -247,7 +270,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		guideDialog = new Dialog(this,
 				android.R.style.Theme_Translucent_NoTitleBar);
-		// check to see if the splash screen should be full screen
+		// check to see if the guide should be full screen
 		if ((getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
 			guideDialog.getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -292,7 +315,6 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 */
 	private List<Integer> getGuideImages() {
 		List<Integer> images = new ArrayList<Integer>();
-		// String[] ss = new String[]{};
 		for (int i = 1; i < 10; i++) {
 			int guideImageId = getResources().getIdentifier("guide_" + i,
 					"drawable", this.getPackageName());
@@ -334,23 +356,15 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		String wxAppID = this.getResources().getString(R.string.weixin_key);
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID);
-			Log.d(TAG, "registerWeixin " + wxAppID);
+//			Log.d(TAG, "registerWeixin " + wxAppID);
 			boolean result = api.registerApp(wxAppID);
-			Log.d(TAG, "weixin register " + result);
-			// api.handleIntent(((Activity) this).getIntent(),
-			// new IWXAPIEventHandler() {
-			// @Override
-			// public void onResp(BaseResp arg0) {
-			// SendAuth.Resp resp = (SendAuth.Resp) arg0;
-			// System.out.println(resp.userName);
-			// }
-			//
-			// @Override
-			// public void onReq(BaseReq arg0) {
-			// }
-			// });
+//			Log.d(TAG, "weixin register " + result);
+		
 		}
 	}
+	/**
+	 * 添加统计
+	 */
 	public void onResume() {
 	    super.onResume();
 	    MobclickAgent.onResume(this);
@@ -359,9 +373,6 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	    super.onPause();
 	    MobclickAgent.onPause(this);
 	}
-//	@Override
-//	public void onReceivedError(int arg0, String arg1, String arg2) {
-//		
-//	}
+
 	
 }

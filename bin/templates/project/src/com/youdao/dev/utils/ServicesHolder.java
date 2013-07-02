@@ -57,16 +57,16 @@ public class ServicesHolder {
 	 */
 	public static String api(int module) {
 		String path;
-		Log.d("BuildConfig.DEBUG", BuildConfig.DEBUG+"");
+	//	Log.d("BuildConfig.DEBUG", BuildConfig.DEBUG+"");
 		if(BuildConfig.DEBUG){
 			path = env.get(DEBUGE) + mapmodule.get(module);	
-			Log.d("DEBUGE path", path);
+	//		Log.d("DEBUGE path", path);
 		}else{
 			path = env.get(RELEASE) + mapmodule.get(module);
-			Log.d(" RELEASE path", path);
+	//		Log.d(" RELEASE path", path);
 		}
 		//Toast.makeText(context, "ddd:"+path, 0).show() ;
-		Log.d("path", path);
+	//	Log.d("path", path);
 		return path;
 	}
 
