@@ -42,7 +42,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -51,6 +50,7 @@ import android.view.WindowManager;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 import com.youdao.dev.utils.NetWorkUtils;
 
 public class DevActivity extends DroidGap implements OnClickListener {
@@ -90,7 +90,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setFullScreen();
 		super.onCreate(savedInstanceState);
 		//Log.d("设备的UUID:", DeviceUtils.getUUID(this));
-
+		
 		File cacha = this.getCacheDir();
 
 		super.setStringProperty("errorUrl", "file:///android_asset/www/error.html");
@@ -174,7 +174,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 						.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
 				if (!mobNetInfo.isConnected() && !wifiNetInfo.isConnected()) {
-					
+					//如果没有 网络 弹出设置网络对话框
 					NetWorkUtils.setNetWorkDialog(DevActivity.this);
 				}
 
@@ -182,7 +182,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 			}
 
 		};
-
+		//注册广播
 		setRegisterReceiver(connectionReceiver);
 	}
 
@@ -190,7 +190,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 	 * 首先判断drawable目录下是否有名为spalsh.png的图片，如果有就设置spalsh ，如果没有就不设置
 	 */
 	private void displaySplash() {
-		
+		UmengUpdateAgent.update(this); //在splash时检查更新
 		//super.appView.clearCache(true); 
 		splashId = getResources().getIdentifier("splash", "drawable",
 				this.getPackageName());
@@ -351,7 +351,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		if (wxAppID != null && !wxAppID.equals("") && !wxAppID.equals("wxkey")) {
 			IWXAPI api = WXAPIFactory.createWXAPI(this, wxAppID);
 //			Log.d(TAG, "registerWeixin " + wxAppID);
-			boolean result = api.registerApp(wxAppID);
+			api.registerApp(wxAppID);
 //			Log.d(TAG, "weixin register " + result);
 		
 		}
