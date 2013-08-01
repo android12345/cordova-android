@@ -48,6 +48,8 @@ public class ShareUtil {
 	private int customPlatformCount = 0;
 
 	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
+	
+	private CallbackContext callbackContext ;
 
 	// private static String uMengID ;
 
@@ -73,6 +75,8 @@ public class ShareUtil {
 		};
 	};
 	public ShareUtil(final CallbackContext callbackContext) {
+		
+		this.callbackContext = callbackContext ;
 
 		controller = UMServiceFactory.getUMSocialService("Android",
 				RequestType.SOCIAL);
@@ -108,7 +112,7 @@ public class ShareUtil {
 	 * 
 	 * @param context
 	 */
-	public void share(final Context context, final ShareInfo shareInfo,CallbackContext callbackContext) {
+	public void share(final Context context, final ShareInfo shareInfo) {
 
 		this.context = context;
 		// 清理自定义平台的数据
@@ -130,7 +134,7 @@ public class ShareUtil {
 						.getResources().getString(R.string.weixin),
 						R.drawable.weixin_icon);
 
-				addWxClickListener(context, mWXPlatform, shareInfo, false,callbackContext);
+				addWxClickListener(context, mWXPlatform, shareInfo, false);
 				config.addCustomPlatform(mWXPlatform); // 添加微信功能到友盟
 				customPlatformCount++;
 
@@ -140,7 +144,7 @@ public class ShareUtil {
 							.getResources().getString(R.string.friend),
 							R.drawable.wxcircel);
 
-					addWxClickListener(context, mWXCircle, shareInfo, true,callbackContext);
+					addWxClickListener(context, mWXCircle, shareInfo, true);
 					config.addCustomPlatform(mWXCircle); // 添加朋友圈功能到友盟
 					customPlatformCount++;
 				}
@@ -199,7 +203,7 @@ public class ShareUtil {
 	 */
 	private void addWxClickListener(final Context context,
 			CustomPlatform customPlatform, final ShareInfo shareInfo,
-			final boolean timeline,final CallbackContext callbackContext) {
+			final boolean timeline) {
 		customPlatform.clickListener = new OnCustomPlatformClickListener() { // 微信分享按钮监听事件
 			@Override
 			public void onClick(CustomPlatform customPlatform,
@@ -210,7 +214,7 @@ public class ShareUtil {
 //								+ shareInfo.getShareText());
 
 				wxShareTextAndImage(shareInfo, context.getResources()
-						.getString(R.string.app_name), timeline,callbackContext);
+						.getString(R.string.app_name), timeline);
 				/*
 				 * if (imageUrl != null) { // 如果图片不为空就分享图片　
 				 * wxShareImageThread(imageUrl); } else if (text != null) {
@@ -244,7 +248,7 @@ public class ShareUtil {
 	 *            是微信还是朋友圈
 	 */
 	private void wxShareTextAndImage(final ShareInfo shareInfo,
-			final String appName, final boolean timeline,final CallbackContext callbackContext) {
+			final String appName, final boolean timeline) {
 //		Log.d(TAG, shareInfo.toString());
 //		Log.d(TAG, "timeline = " + timeline);
 		WXWebpageObject webpage = new WXWebpageObject();

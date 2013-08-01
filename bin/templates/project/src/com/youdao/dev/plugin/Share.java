@@ -31,10 +31,10 @@ public class Share extends CordovaPlugin {
 
 					@Override
 					public void run() {
-						if (shareUtil == null)
+						//if (shareUtil == null)
 							shareUtil = new ShareUtil(callbackContext);
 					
-						shareUtil.share(cordova.getActivity(), shareInfo,callbackContext);
+						shareUtil.share(cordova.getActivity(), shareInfo);
 						// 清理自定义平台的数据
 						shareUtil.clearCustomPlatforms() ;
 				
