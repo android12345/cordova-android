@@ -73,8 +73,6 @@ public class ShareUtil {
 			}
 		};
 	};
-
-	public boolean isShareScuess ;
 	public ShareUtil(final CallbackContext callbackContext) {
 
 		controller = UMServiceFactory.getUMSocialService("Android",
@@ -92,7 +90,7 @@ public class ShareUtil {
 
 				if (arg1 == 200) {
 					CommUtils.showMessage("分享成功", context);
-					callbackContext.success("分享成功") ;
+					callbackContext.success("success") ;
 				
 				} else {
 					String eMsg = "";
