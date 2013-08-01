@@ -23,7 +23,7 @@ import com.youdao.dev.utils.CommUtils;
 public class CheckVersion extends CordovaPlugin {
 	
 	private final static String UPDATE = "checkVersion" ;
-	private Handler handler = new Handler(Looper.getMainLooper()){
+	private static Handler handler = new Handler(Looper.getMainLooper()){
 		public void handleMessage(android.os.Message msg) {
 			
 			switch (msg.what) {

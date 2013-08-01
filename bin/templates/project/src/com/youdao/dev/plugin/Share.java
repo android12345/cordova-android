@@ -12,7 +12,7 @@ import com.youdao.dev.utils.ShareUtil;
  * @author junjun 分享功能的插件
  */
 public class Share extends CordovaPlugin {
-
+	
 	public final String SHARE = "share";
 
 	// private static String uMengID ;
@@ -20,7 +20,7 @@ public class Share extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, JSONArray args,
-			CallbackContext callbackContext) throws JSONException {
+			final CallbackContext callbackContext) throws JSONException {
 
 		final ShareInfo shareInfo = ShareInfo.parse(args);
 
@@ -32,12 +32,12 @@ public class Share extends CordovaPlugin {
 					@Override
 					public void run() {
 						if (shareUtil == null)
-							shareUtil = new ShareUtil();
-						
+							shareUtil = new ShareUtil(callbackContext);
+					
 						shareUtil.share(cordova.getActivity(), shareInfo);
 						// 清理自定义平台的数据
 						shareUtil.clearCustomPlatforms() ;
-						
+				
 					}
 				};
 				cordova.getActivity().runOnUiThread(runnable); // 在UI线程运行
@@ -46,8 +46,6 @@ public class Share extends CordovaPlugin {
 				e.printStackTrace();
 			}
 
-			// Log.d(TAG, "projectName is :"+projectName) ;
-			callbackContext.success("准备开始分享!");
 			return true;
 		}
 		return false;

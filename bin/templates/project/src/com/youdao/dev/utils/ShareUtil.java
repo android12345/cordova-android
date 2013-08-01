@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.cordova.api.CallbackContext;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +34,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMediaObject;
 import com.youdao.dev.R;
 import com.youdao.dev.domain.ShareInfo;
+import com.youdao.dev.plugin.Share;
 
 /**
  * @author junjun 分享的工具类，集成友盟的分享功能和自定义的平台（如：微信，朋友圈）
@@ -71,7 +74,8 @@ public class ShareUtil {
 		};
 	};
 
-	public ShareUtil() {
+	public boolean isShareScuess ;
+	public ShareUtil(final CallbackContext callbackContext) {
 
 		controller = UMServiceFactory.getUMSocialService("Android",
 				RequestType.SOCIAL);
@@ -88,6 +92,8 @@ public class ShareUtil {
 
 				if (arg1 == 200) {
 					CommUtils.showMessage("分享成功", context);
+					callbackContext.success("分享成功") ;
+				
 				} else {
 					String eMsg = "";
 					if (arg1 == -101)
