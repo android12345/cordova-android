@@ -34,7 +34,7 @@ public class Share extends CordovaPlugin {
 						if (shareUtil == null)
 							shareUtil = new ShareUtil(callbackContext);
 					
-						shareUtil.share(cordova.getActivity(), shareInfo);
+						shareUtil.share(cordova.getActivity(), shareInfo,callbackContext);
 						// 清理自定义平台的数据
 						shareUtil.clearCustomPlatforms() ;
 				
