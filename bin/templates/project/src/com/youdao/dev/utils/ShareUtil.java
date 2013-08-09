@@ -213,7 +213,7 @@ public class ShareUtil {
 //						shareInfo.getShareImageUrl() + "|"
 //								+ shareInfo.getShareText());
 
-				wxShareTextAndImage(shareInfo, context.getResources()
+				wxShareTextAndImage(context,shareInfo, context.getResources()
 						.getString(R.string.app_name), timeline);
 				/*
 				 * if (imageUrl != null) { // 如果图片不为空就分享图片　
@@ -247,7 +247,7 @@ public class ShareUtil {
 	 * @param timeline
 	 *            是微信还是朋友圈
 	 */
-	private void wxShareTextAndImage(final ShareInfo shareInfo,
+	private void wxShareTextAndImage(final Context context ,final ShareInfo shareInfo,
 			final String appName, final boolean timeline) {
 //		Log.d(TAG, shareInfo.toString());
 //		Log.d(TAG, "timeline = " + timeline);
@@ -263,7 +263,6 @@ public class ShareUtil {
 		msg.description = shareInfo.getShareText() == null ? "" : shareInfo
 				.getShareText();
 
-		
 		if (shareInfo.getShareImageUrl() != null) {
 
 			new Thread(new Runnable() {
@@ -291,7 +290,9 @@ public class ShareUtil {
 					req.scene = timeline ? SendMessageToWX.Req.WXSceneTimeline
 							: SendMessageToWX.Req.WXSceneSession;
 					api.sendReq(req);
-					callbackContext.success("success") ;
+					//callbackContext.success("success") ;
+					
+				
 				}
 			}).start();
 		}

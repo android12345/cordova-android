@@ -17,6 +17,11 @@ public class Share extends CordovaPlugin {
 
 	// private static String uMengID ;
 	private ShareUtil shareUtil = null;
+	
+	//private WXEntryActivity activity ;
+	
+	
+	public static CallbackContext callbackContext ;
 
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -26,13 +31,15 @@ public class Share extends CordovaPlugin {
 
 		if (SHARE.equals(action)) {
 			try {
-
+				this.callbackContext = callbackContext ;
 				Runnable runnable = new Runnable() {
 
 					@Override
 					public void run() {
 						//if (shareUtil == null)
 							shareUtil = new ShareUtil(callbackContext);
+							
+							//activity = new WXEntryActivity(callbackContext) ;
 					
 						shareUtil.share(cordova.getActivity(), shareInfo);
 						// 清理自定义平台的数据

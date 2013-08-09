@@ -97,6 +97,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent"></activity>
         <!-- Socialize config Start -->
         <activity
             android:name="com.umeng.socialize.view.CommentActivity"
