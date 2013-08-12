@@ -73,6 +73,9 @@
      <plugin name="Redirect" value="com.youdao.dev.plugin.Redirect"/>
      <!-- 获取用户id插件 -->
      <plugin name="GetApplicationInfo" value="com.youdao.dev.plugin.GetApplicationInfo"/>
+     
+     <!-- 扫描二维码的插件 -->
+      <plugin name="ScanditSDK" value="com.youdao.dev.plugin.ScanditSDK"/>
 </plugins>
 </cordova>
 

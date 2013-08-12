@@ -96,7 +96,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        
+        <!-- 二维码扫描的Activity -->
+		  <activity android:name=".ScanditSDKActivity"></activity>
+		 <!-- 微信回调的Activity --> 
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent"></activity>

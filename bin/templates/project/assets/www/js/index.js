@@ -175,3 +175,23 @@ function passuid() {
     }, "GetApplicationInfo", "getApplicationInfo", ["20"]);
 
 }
+
+
+
+
+function scan() {
+    cordova.exec(function(winParam) {
+        alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "ScanditSDK", "scan", ["71lJHNykEeKA7i/yJxRDDJxpnvykL5osh6zSD1MsrBA",
+                              {"beep": true,
+                              "1DScanning" : true,
+                              "2DScanning" : true,
+                              "scanningHotspot" : "0.5/0.5",
+								"vibrate" : true,
+								textForInitialScanScreenState: "将代码框对齐"}]);
+
+}

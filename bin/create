@@ -120,6 +120,7 @@ YOUDAOAPPLICATION_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/YouDaoApplication.ja
 JPUSHMANAGER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/JpushManager.java
 LOCATIONPROVIDER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/LocationProvider.java
 JPUSHRECEIVER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/JpushReceiver.java
+SCANDIT_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/ScanditSDKActivity.java
 
 
 NEWPROJECT_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH
@@ -207,6 +208,7 @@ cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/YouDaoApplication.java
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/JpushManager.java "$JPUSHMANAGER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/LocationProvider.java "$LOCATIONPROVIDER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/JpushReceiver.java "$JPUSHRECEIVER_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/ScanditSDKActivity.java "$SCANDIT_PATH"
 #===============copy file to new project
 cp -rf $BUILD_PATH/bin/templates/project/src/com/youdao/dev/utils $NEWPROJECT_PATH
 cp -rf $BUILD_PATH/bin/templates/project/src/com/youdao/dev/plugin $NEWPROJECT_PATH
