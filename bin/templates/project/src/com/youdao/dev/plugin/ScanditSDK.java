@@ -248,12 +248,12 @@ public class ScanditSDK extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == ScanditSDKActivity.SCAN) {
             String barcode = data.getExtras().getString("barcode");
-            String symbology = data.getExtras().getString("symbology");
-            JSONArray args = new JSONArray();
-            args.put(barcode);
-            args.put(symbology);
-            mCallbackContext.success(args);
-            Toast.makeText(cordova.getActivity(), "数据是："+args, 0).show() ;
+//            String symbology = data.getExtras().getString("symbology");
+//            JSONArray args = new JSONArray();
+//            args.put(barcode);
+//            args.put(symbology);
+            mCallbackContext.success(barcode);
+        //    Toast.makeText(cordova.getActivity(), "数据是："+args, 0).show() ;
         
         } else if (resultCode == ScanditSDKActivity.MANUAL) {
             String barcode = data.getExtras().getString("barcode");
