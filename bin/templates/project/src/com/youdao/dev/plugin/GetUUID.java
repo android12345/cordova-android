@@ -34,7 +34,7 @@ public class GetUUID extends CordovaPlugin {
 		
 		String uuid = DeviceUtils.getUUID(this.cordova.getActivity()) ;
 		if(uuid !=null){
-			callbackContext.success("设备的UUID是："+uuid) ;
+			callbackContext.success(uuid) ;
 		//	JPushInterface.setAliasAndTags(this.cordova.getActivity(), uuid, null);
 		//	Log.d(TAG, "uuid is " +uuid) ;
 		}else{
