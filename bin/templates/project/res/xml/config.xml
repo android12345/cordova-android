@@ -76,6 +76,10 @@
      
      <!-- 扫描二维码的插件 -->
       <plugin name="ScanditSDK" value="com.youdao.dev.plugin.ScanditSDK"/>
+      
+      <!-- 生日提醒插件 -->
+      <plugin name="AlarmClock" value="com.youdao.dev.plugin.AlarmClock"/>
+      
 </plugins>
 </cordova>
 

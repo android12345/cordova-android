@@ -193,5 +193,99 @@ function scan() {
                               "scanningHotspot" : "0.5/0.5",
 								"vibrate" : true,
 								textForInitialScanScreenState: "将代码框对齐"}]);
+						
 
 }
+
+
+
+
+
+			function addaralm() {
+				cordova.exec(function(winParam) {
+					alert(winParam);
+					//var i = winParam ;
+					//alert(i+"谢谢你") ;
+				}, function(error) {
+					alert(error);
+				}, "AlarmClock", "addAlarmClock", ["1",  "这是一个内容", "1377656580","100","这是标题"]);
+			}
+
+		
+		
+			function addaralm2() {
+				cordova.exec(function(winParam) {
+					alert("成功");
+				}, function(error) {
+					alert("失败");
+				}, "AlarmClock", "addAlarmClock", ["2", "这是第二个","1364450940","2","这是第二个内容"]);
+
+			}
+	
+			
+			function addaralm3() {
+				cordova.exec(function(winParam) {
+					alert("成功");
+				}, function(error) {
+					alert("失败");
+				}, "AlarmClock", "addAlarmClock", ["3", "这是第三个","1362366360","2","这是第二个内容"]);
+
+			}
+	
+			
+			function addaralm4() {
+				cordova.exec(function(winParam) {
+					alert("成功");
+				}, function(error) {
+					alert("失败");
+				}, "AlarmClock", "addAlarmClock", ["4", "这是第四个","1362366360","2","这是第二个内容"]);
+
+			}
+
+			function delete1() {
+				cordova.exec(function(winParam) {
+					alert(winParam);
+				}, function(error) {
+					alert(error);
+				}, "AlarmClock", "delete", ["1"]);
+
+			}
+
+			function update1() {
+				cordova.exec(function(winParam) {
+					alert(winParam);
+					//var i = winParam ;
+					//alert(i+"谢谢你") ;
+				}, function(error) {
+					alert(error);
+				}, "AlarmClock", "update", ["1",  "我很好是一个内容", "1362463320","你好嘛"]);
+
+			}
+
+	
+		
+			
+			function deleteArray() {
+				cordova.exec(function(winParam) {
+					alert(winParam);
+					//var i = winParam ;
+					//alert(i+"谢谢你") ;
+				}, function(error) {
+					alert(error);
+				}, "AlarmClock", "deleteManyAlarmClock", ["1","2"]);
+
+			}
+
+	
+		
+			function searchall() {
+				
+			  	cordova.exec(function(winParam) {
+					alert(winParam);
+					//var i = winParam ;
+					//alert(i+"谢谢你") ;
+				}, function(error) {
+					alert(error);
+				}, "AlarmClock", "searchAlarmClock", []);
+			}
+	
