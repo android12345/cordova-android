@@ -163,7 +163,8 @@ public class Guide implements OnTouchListener  {
 		imgopen = new ImageView(context) ;
 		imgopen.setLayoutParams(open) ;
 		imgopen.setImageResource(R.drawable.ic_open) ;
-	//	imgopen.setVisibility(View.GONE) ;
+		//如果想让跳过按钮显示 注释掉这一行即可
+		imgopen.setVisibility(View.GONE) ;
 		view.addView(imgopen) ;
 	}
 

@@ -208,9 +208,10 @@ function scan() {
 					//alert(i+"谢谢你") ;
 				}, function(error) {
 					alert(error);
-				}, "AlarmClock", "addAlarmClock", ["1",  "这是一个内容", "1377656580","100","这是标题"]);
+				}, "AlarmClock", "addAlarmClock", ["1",  "这是一个内容", "1377677912","100","这是标题"]);
 			}
 
+		  
 		
 		
 			function addaralm2() {
