@@ -3,6 +3,7 @@ package com.youdao.dev;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -37,13 +38,12 @@ public class LocationProvider {
 				 * mLocationClient.requestLocation(); }
 				 */
 
-				// Log.d("*************************:", location.getLatitude()
 				// + "," + location.getLongitude());
 
 				final String app_id = context.getResources().getString(
 						R.string.app_id);
 				// Toast.makeText(context, "appid is "+app_id, 0).show() ;
-				JpushManager.getInstance().jpushSendData(context, app_id,
+				JpushManager.getInstance().jpushSendData(context, "51",
 						DeviceUtils.getUUID(context), "",
 						CommUtils.getVersionCode(context),
 						CommUtils.getAndroidSDKVersion(),
@@ -55,7 +55,14 @@ public class LocationProvider {
 							@Override
 							public void onSuccess(JSONObject arg0) {
 								super.onSuccess(arg0);
-//								Log.d("LocationProvider.sendData :", arg0.toString());
+								//Log.d("================================= :", arg0.toString());
+							}
+							
+							@Override
+							public void onFailure(Throwable arg0, String arg1) {
+								// TODO Auto-generated method stub
+								super.onFailure(arg0, arg1);
+							//	Log.d("================================= error:", arg1.toString());
 							}
 						});
 
