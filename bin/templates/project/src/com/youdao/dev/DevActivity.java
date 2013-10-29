@@ -47,10 +47,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
+import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.NetWorkUtils;
 
 public class DevActivity extends DroidGap implements OnClickListener {
@@ -90,6 +93,9 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		setFullScreen();
 		super.onCreate(savedInstanceState);
 		//Log.d("设备的UUID:", DeviceUtils.getUUID(this));
+		//注册  百度推送  绑定百度推送
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY, CommUtils.getMetaValue(this, "api_key"));
 		
 		File cacha = this.getCacheDir();
 

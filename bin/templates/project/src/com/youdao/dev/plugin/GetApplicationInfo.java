@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.youdao.dev.JpushManager;
+import com.youdao.dev.BaidupushManager;
 import com.youdao.dev.R;
 import com.youdao.dev.utils.DeviceUtils;
 
@@ -51,7 +51,7 @@ public class GetApplicationInfo extends CordovaPlugin {
 
 		
 		
-		JpushManager.getInstance().sendUid(cordova.getActivity(), uid, uuid,app_id, new JsonHttpResponseHandler(){
+		BaidupushManager.getInstance().sendUid(cordova.getActivity(), uid, uuid,app_id, new JsonHttpResponseHandler(){
 			@Override
 			public void onSuccess(JSONObject arg0) {
 				super.onSuccess(arg0);

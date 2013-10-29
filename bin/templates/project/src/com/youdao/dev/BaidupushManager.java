@@ -10,17 +10,17 @@ import com.youdao.dev.utils.HttpClientUtils;
 import com.youdao.dev.utils.ServicesHolder;
 
 /**
- * 向服务器发送极光有关信息的api
+ * 向服务器发送极光有关信息的api  用的是百度云推送
  *
  */
-public class JpushManager {
+public class BaidupushManager {
 
-	private static JpushManager instance;
+	private static BaidupushManager instance;
 	
-	private JpushManager(){} ;
-	public static JpushManager getInstance() {
+	private BaidupushManager(){} ;
+	public static BaidupushManager getInstance() {
 		if (instance == null)
-			instance = new JpushManager();
+			instance = new BaidupushManager();
 		return instance;
 	}
 	
@@ -28,7 +28,7 @@ public class JpushManager {
 	 * 
 	 * @param context
 	 * @param appid 应用ID
-	 * @param uuid 手机的唯一标识
+	 * @param uuid 手机的唯一标识   这里换成百度的返回的userid 
 	 * @param uid　用户ID
 	 * @param appversion 应用版本
 	 * @param sdkversion　SDK版本　
@@ -38,7 +38,7 @@ public class JpushManager {
 	 * @param phonebrands　手机品牌
 	 * @param handler
 	 */
-	public void jpushSendData(Context context, String appid, String uuid,String uid ,String appversion,String sdkversion,String latitude,String longitude,String operators,String  phonebrands,
+	public void baiduPushSendData(Context context, String appid, String uuid,String uid ,String appversion,String sdkversion,String latitude,String longitude,String operators,String  phonebrands,
 			AsyncHttpResponseHandler handler) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("caid", appid) ;

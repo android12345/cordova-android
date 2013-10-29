@@ -3,10 +3,12 @@ package com.youdao.dev.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,5 +141,28 @@ public class CommUtils {
 		}
 		return version;
 	}
+	
+	
+	// 获取百度推送的AppKey
+    public static String getMetaValue(Context context, String metaKey) {
+        Bundle metaData = null;
+        String apiKey = null;
+        if (context == null || metaKey == null) {
+        	return null;
+        }
+        try {
+            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(
+                    context.getPackageName(), PackageManager.GET_META_DATA);
+            if (null != ai) {
+                metaData = ai.metaData;
+            }
+            if (null != metaData) {
+            	apiKey = metaData.getString(metaKey);
+            }
+        } catch (NameNotFoundException e) {
+
+        }
+        return apiKey;
+    }
 
 }

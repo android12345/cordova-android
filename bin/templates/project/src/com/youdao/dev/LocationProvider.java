@@ -3,12 +3,16 @@ package com.youdao.dev;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.tencent.mm.sdk.plugin.MMPluginProviderConstants.SharedPref;
 import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.DeviceUtils;
 
@@ -18,10 +22,14 @@ public class LocationProvider {
 	private static LocationClient mLocationClient = null;
 
 	private static Context context;
+	
+	private SharedPreferences preferences = null ;
 
 	public LocationProvider(Context context) {
 		super();
 		LocationProvider.context = context;
+		
+		 preferences = context.getSharedPreferences("push_user", context.MODE_PRIVATE) ;
 	}
 
 	/**
@@ -42,9 +50,15 @@ public class LocationProvider {
 
 				final String app_id = context.getResources().getString(
 						R.string.app_id);
+				String baiduuserid = preferences.getString("user_id", "") ;
+				
+				
+				Toast.makeText(context, "123"+baiduuserid, 0).show() ;
+				
+				
 				// Toast.makeText(context, "appid is "+app_id, 0).show() ;
-				JpushManager.getInstance().jpushSendData(context, app_id,
-						DeviceUtils.getUUID(context), "",
+				BaidupushManager.getInstance().baiduPushSendData(context, "51",
+						baiduuserid, "",
 						CommUtils.getVersionCode(context),
 						CommUtils.getAndroidSDKVersion(),
 						location.getLatitude() + "",
@@ -55,7 +69,13 @@ public class LocationProvider {
 							@Override
 							public void onSuccess(JSONObject arg0) {
 								super.onSuccess(arg0);
-//								Log.d("LocationProvider.sendData :", arg0.toString());
+								Log.d("**********************************************", arg0.toString());
+							}
+							@Override
+							public void onFailure(Throwable arg0, String arg1) {
+								// TODO Auto-generated method stub
+								super.onFailure(arg0, arg1);
+								Log.d("**********************************************error", arg1.toString());
 							}
 						});
 

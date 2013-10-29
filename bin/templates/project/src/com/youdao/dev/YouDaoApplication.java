@@ -1,9 +1,6 @@
 package com.youdao.dev;
 
 import android.app.Application;
-import cn.jpush.android.api.JPushInterface;
-
-import com.youdao.dev.utils.DeviceUtils;
 /**
  * For developer startup JPush SDK  和取得　经纬度初始化
  * 
@@ -18,10 +15,10 @@ public class YouDaoApplication extends Application {
 	    	// Log.d(TAG, "onCreate");
 	         super.onCreate();
 	 		
-	         JPushInterface.setDebugMode(true); 	//设置开启日志,发布时请关闭日志
-	         
-	         JPushInterface.init(this);     		// 初始化 JPush
-	         JPushInterface.setAliasAndTags(this, DeviceUtils.getUUID(this), null) ;//极光设置别名
+//	         JPushInterface.setDebugMode(true); 	//设置开启日志,发布时请关闭日志
+//	         
+//	         JPushInterface.init(this);     		// 初始化 JPush
+//	         JPushInterface.setAliasAndTags(this, DeviceUtils.getUUID(this), null) ;//极光设置别名
 	         
 	    }
 		
