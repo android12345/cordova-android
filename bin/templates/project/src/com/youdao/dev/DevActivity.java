@@ -100,7 +100,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		File cacha = this.getCacheDir();
 
 		super.setStringProperty("errorUrl", "file:///android_asset/www/error.html");
-		JpushReceiver.activity = this;
+		PushMessageReceiver.activity = this;
 
 		Intent intent = this.getIntent();
         

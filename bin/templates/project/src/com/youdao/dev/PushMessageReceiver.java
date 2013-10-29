@@ -26,6 +26,7 @@ public class PushMessageReceiver extends BroadcastReceiver{
 	private static final String TAG = "PushMessageReceiver";
 	
 	private SharedPreferences preferences ;
+	 static DevActivity activity ;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -145,6 +146,7 @@ public class PushMessageReceiver extends BroadcastReceiver{
 				jsonObject = new JSONObject(str) ;
 				urivaules = jsonObject.optString("uri") ;
 				aIntent.putExtra("uri", urivaules) ;
+				activity.finish() ;
 				context.startActivity(aIntent);
 				
 				
