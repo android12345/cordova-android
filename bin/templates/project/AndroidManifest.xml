@@ -200,7 +200,7 @@
 
         <meta-data
             android:name="api_key"
-            android:value="WzgSEeOnq6Z0QN6S39xuCrGp" />
+            android:value="@string/baidupush_key" />
         <!-- push service end -->
         
       <!-- baidu push config end -->  

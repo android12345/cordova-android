@@ -1,7 +1,5 @@
 package com.youdao.dev;
 
-import org.json.JSONObject;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

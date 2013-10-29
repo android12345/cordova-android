@@ -117,10 +117,11 @@ mkdir  -p "$PROJECT_PATH"/src/$PACKAGE_AS_PATH/wxapi # create package/plugin fil
 GUIDE_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/Guide.java
 GUIDEADAPTER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/GuidePagerAdapter.java
 YOUDAOAPPLICATION_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/YouDaoApplication.java
-JPUSHMANAGER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/JpushManager.java
+JPUSHMANAGER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/PushMessageReceiver.java
 LOCATIONPROVIDER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/LocationProvider.java
 JPUSHRECEIVER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/JpushReceiver.java
 SCANDIT_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/ScanditSDKActivity.java
+BAIDUPUSHMANAGER_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH/BaidupushManager.java
 
 
 NEWPROJECT_PATH="$PROJECT_PATH"/src/$PACKAGE_AS_PATH
@@ -205,10 +206,11 @@ cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/DevActivity.java "$ACT
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/Guide.java "$GUIDE_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/GuidePagerAdapter.java "$GUIDEADAPTER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/YouDaoApplication.java "$YOUDAOAPPLICATION_PATH"
-cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/JpushManager.java "$JPUSHMANAGER_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/PushMessageReceiver.java "$JPUSHMANAGER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/LocationProvider.java "$LOCATIONPROVIDER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/JpushReceiver.java "$JPUSHRECEIVER_PATH"
 cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/ScanditSDKActivity.java "$SCANDIT_PATH"
+cp "$BUILD_PATH"/bin/templates/project/src/com/youdao/dev/BaidupushManager.java "$BAIDUPUSHMANAGER_PATH"
 #===============copy file to new project
 cp -rf $BUILD_PATH/bin/templates/project/src/com/youdao/dev/utils $NEWPROJECT_PATH
 cp -rf $BUILD_PATH/bin/templates/project/src/com/youdao/dev/plugin $NEWPROJECT_PATH
@@ -230,6 +232,7 @@ replace "s/dev/${ACTIVITY}/g" "$STRING_XML_PATH"
 
 replace "s/DevActivity/${ACTIVITY}/g" "$GUIDE_PATH"
 replace "s/DevActivity/${ACTIVITY}/g" "$JPUSHRECEIVER_PATH"
+replace "s/DevActivity/${ACTIVITY}/g" "$JPUSHMANAGER_PATH"
 
 #=================================================================replace src/ all file package name
 sed -i -e "s/com.youdao.dev/${PACKAGE}/g" `grep com.youdao.dev -rl ${PROJECT_PATH}/src`

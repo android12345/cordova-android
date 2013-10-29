@@ -11,6 +11,9 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.baidu.android.pushservice.PushConstants;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.youdao.dev.utils.CommUtils;
+import com.youdao.dev.utils.DeviceUtils;
 
 /**
  * 推送过来的消息处理广播 
@@ -29,6 +32,7 @@ public class PushMessageReceiver extends BroadcastReceiver{
 	
 		preferences = context.getSharedPreferences("push_user", context.MODE_PRIVATE) ;
 		
+		
 		if (intent.getAction().equals(PushConstants.ACTION_MESSAGE)) { //这里是获取消息
 			//获取消息内容
 			String message = intent.getExtras().getString(
@@ -37,11 +41,6 @@ public class PushMessageReceiver extends BroadcastReceiver{
 		} else if (intent.getAction().equals(PushConstants.ACTION_RECEIVE)) {
 			//处理绑定等方法的返回数据
 			//PushManager.startWork()的返回值通过PushConstants.METHOD_BIND得到
-
-			String method1 = intent.getStringExtra("method") ;
-			
-		
-			
 			//获取方法
 			final String method = intent
 					.getStringExtra(PushConstants.EXTRA_METHOD);
@@ -66,11 +65,36 @@ public class PushMessageReceiver extends BroadcastReceiver{
 				 jsonObject = new JSONObject(content) ;
 				 JSONObject json = jsonObject.optJSONObject("response_params") ;
 				 String userid = json.optString("user_id") ;
-					Log.d("77777777777777777777777777777777777777", userid) ;
-				
+					
+					  
+				if(userid!=null){
 				 Editor editor = preferences.edit() ;
 				 editor.putString("user_id", userid) ;
 				 editor.commit() ;
+				}
+				 
+				 final String app_id = context.getResources().getString(
+							R.string.app_id);
+					BaidupushManager.getInstance().baiduPushSendData(context, app_id,
+							DeviceUtils.getUUID(context), "",
+							CommUtils.getVersionCode(context),
+							CommUtils.getAndroidSDKVersion(),
+							"",
+							 "",
+							CommUtils.getProvidersName(context),
+							CommUtils.getPhoneBrand(), userid,
+							new JsonHttpResponseHandler() {
+								@Override
+								public void onSuccess(JSONObject arg0) {
+									super.onSuccess(arg0);
+								}
+								@Override
+								public void onFailure(Throwable arg0, String arg1) {
+									// TODO Auto-generated method stub
+									super.onFailure(arg0, arg1);
+								}
+							});
+				 
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -140,5 +164,6 @@ public class PushMessageReceiver extends BroadcastReceiver{
 		}
 		
 	}
+
 
 }

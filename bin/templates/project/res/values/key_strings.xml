@@ -3,7 +3,7 @@
 
    <string name="umeng_key">umengkey</string> 
     <string name="weixin_key">wxkey</string>
-    <string name="jpush_key">jpushkey</string>
+    <string name="baidupush_key">baidupushkey</string>
     <string name="app_id">appid</string>
     <integer name="versionCode">1</integer>
     <string name="versionName">1.0</string>

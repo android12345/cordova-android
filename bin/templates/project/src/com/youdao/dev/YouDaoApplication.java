@@ -9,6 +9,7 @@ import android.app.Application;
 public class YouDaoApplication extends Application {
 	   private static final String TAG = "YouDaoApplication";
 	   
+	   
 
 	    @Override
 	    public void onCreate() {

@@ -40,7 +40,8 @@ public class ServicesHolder {
 		env = new SparseArray<String>();
 
 		//env.put(DEVELOPMENT, "http://cloud.appmars.com");
-		env.put(DEBUGE, "http://cloud.appmars.com");
+	//	env.put(DEBUGE, "http://cloud.appmars.com");
+		env.put(DEBUGE, "http://115.28.36.217");
 		env.put(RELEASE, "http://115.28.36.217") ;
 		// env.put(TEST, "http://test.ent.appmars.com");
 
