@@ -102,7 +102,7 @@ public class Alipay extends CordovaPlugin {
 		}
 		String info = orderInfo + "&sign=" + "\"" + sign + "\"" + "&"
 				+ getSignType();
-
+		
 		Intent intent = new Intent();
 		intent.setPackage(this.cordova.getActivity().getPackageName());
 		intent.setAction("com.alipay.mobilepay.android");
@@ -154,6 +154,7 @@ public class Alipay extends CordovaPlugin {
 //		orderInfo += "&show_url=\"m.alipay.com\"";
 
 		// verify(sign, orderInfo);
+		Log.d(TAG , orderInfo);
 
 		return orderInfo;
 	}

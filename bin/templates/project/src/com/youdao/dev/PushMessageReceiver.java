@@ -97,7 +97,7 @@ public class PushMessageReceiver extends BroadcastReceiver{
 							});
 				 
 				
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
