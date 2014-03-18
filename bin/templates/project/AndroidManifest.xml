@@ -55,7 +55,16 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于评论模块分享位置信息 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于评论模块分享位置信息 -->
     <!-- umeng permission end -->
+	
+	<!-- alipay permission start -->
+	
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="com.ut.permission.DEVICE_STATE" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
 
+    <permission android:name="com.ut.permission.DEVICE_STATE" />
+    <!-- umeng permission end -->
     
     <!-- jpush permission start -->
     <permission android:name="com.youdao.dev.permission.JPUSH_MESSAGE" android:protectionLevel="signature" />
@@ -132,6 +141,97 @@
             android:theme="@style/Theme.UMDefault" >
         </activity>
         <!-- Socialize Activitys End -->
+        
+         <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.android.mini.window.sdk.MiniLaucherActivity"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/MspAppTheme" >
+            <intent-filter>
+                <action android:name="com.alipay.mobilepay.android" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.taobao.android.ski.NODERIVATION"
+                android:value="true" />
+        </activity>
+        <activity
+            android:name="com.alipay.android.mini.window.sdk.TransContainer"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/MspAppTheme" >
+            <meta-data
+                android:name="com.taobao.android.ski.NODERIVATION"
+                android:value="true" />
+        </activity>
+        <!-- 极简收银台主界面 -->
+        <activity
+            android:name="com.alipay.android.mini.window.sdk.MiniPayActivity"
+            android:configChanges="orientation"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="@string/msp_app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MspAppTheme"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter android:priority="800" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.taobao.android.ski.NODERIVATION"
+                android:value="true" />
+        </activity>
+        <!-- 极简收银台链接查看界面 -->
+        <activity
+            android:name="com.alipay.android.mini.window.sdk.MiniWebActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/MspAppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.taobao.android.ski.NODERIVATION"
+                android:value="true" />
+        </activity>
+        <!-- 快捷支付服务 -->
+        <service android:name="com.alipay.android.app.MspService" />
+        <!-- UTDID -->
+       <!--  <receiver
+            android:name="com.ut.device.BQueryWhoHasOne"
+            android:exported="true"
+            android:permission="com.ut.permission.DEVICE_STATE" >
+            <intent-filter>
+                <action android:name="UT.QueryWhoHasOne" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ut.device.BFoundIt"
+            android:exported="true"
+            android:permission="com.ut.permission.DEVICE_STATE" >
+            <intent-filter>
+                <action android:name="UT.FoundIT" />
+            </intent-filter>
+        </receiver> -->
+
+        <!-- sdk end -->
+        
         <!-- umeng appkey -->
         <!-- 508a19595270157a6f00005e -->
       	<meta-data

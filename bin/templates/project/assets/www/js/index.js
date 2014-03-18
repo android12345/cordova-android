@@ -289,4 +289,15 @@ function scan() {
 					alert(error);
 				}, "AlarmClock", "searchAlarmClock", []);
 			}
-	
+
+
+function alipay(title, body, price, orderno) {
+    
+    cordova.exec(function(winParam) {
+        // alert(winParam);
+        //var i = winParam ;
+        //alert(i+"谢谢你") ;
+    }, function(error) {
+        alert(error);
+    }, "Alipay", "alipay", [title, body, price, orderno]);
+}

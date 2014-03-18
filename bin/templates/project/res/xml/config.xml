@@ -80,6 +80,9 @@
       <!-- 生日提醒插件 -->
       <plugin name="AlarmClock" value="com.youdao.dev.plugin.AlarmClock"/>
       
+       <!-- 支付宝快捷支付插件 -->
+      <plugin name="Alipay" value="com.youdao.dev.plugin.Alipay"/>
+      
 </plugins>
 </cordova>
 
