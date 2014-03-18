@@ -46,7 +46,6 @@ public class LocationProvider {
 				 * mLocationClient.requestLocation(); }
 				 */
 
-				// Log.d("*************************:", location.getLatitude()
 				// + "," + location.getLongitude());
 
 				final String app_id = context.getResources().getString(
@@ -66,13 +65,13 @@ public class LocationProvider {
 							@Override
 							public void onSuccess(JSONObject arg0) {
 								super.onSuccess(arg0);
-							//	Log.d("**********************************************l", arg0.toString());
+								//Log.d("================================= :", arg0.toString());
 							}
+							
 							@Override
 							public void onFailure(Throwable arg0, String arg1) {
 								// TODO Auto-generated method stub
 								super.onFailure(arg0, arg1);
-								//Log.d("**********************************************lerror", arg1.toString());
 							}
 						});
 

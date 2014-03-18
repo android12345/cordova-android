@@ -95,7 +95,7 @@
             <TextView
                 android:id="@+id/umeng_socialize_action_user_center_tv"
                 style="@style/umeng_socialize_action_bar_item_tv"
-                android:layout_toRightOf="@id/umeng_socialize_action_share_im"
+                android:layout_toRightOf="@id/umeng_socialize_action_user_center_im"
                 android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
