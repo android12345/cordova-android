@@ -57,17 +57,17 @@ public class Alipay extends CordovaPlugin {
 	 * 
 	 * @return
 	 */
-	private String getOutTradeNo() {
-		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
-				Locale.getDefault());
-		Date date = new Date();
-		String key = format.format(date);
-
-		java.util.Random r = new java.util.Random();
-		key = key + r.nextInt();
-		key = key.substring(0, 15);
-		return key;
-	}
+//	private String getOutTradeNo() {
+//		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
+//				Locale.getDefault());
+//		Date date = new Date();
+//		String key = format.format(date);
+//
+//		java.util.Random r = new java.util.Random();
+//		key = key + r.nextInt();
+//		key = key.substring(0, 15);
+//		return key;
+//	}
 
 	// 点击事件
 	public void pay(CallbackContext callbackContext , JSONArray args) {
@@ -92,12 +92,14 @@ public class Alipay extends CordovaPlugin {
 				title,
 				body,
 				""+price,
-				getOutTradeNo());
+				orderno);
+//				getOutTradeNo());
 		
 		String signType = getSignType();
 		String sign = sign(signType, orderInfo);
 		try {
 			sign = URLEncoder.encode(sign, "UTF-8");
+			Log.d(TAG , sign);
 		} catch (UnsupportedEncodingException e) {
 		}
 		String info = orderInfo + "&sign=" + "\"" + sign + "\"" + "&"
