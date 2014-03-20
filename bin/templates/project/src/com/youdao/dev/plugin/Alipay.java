@@ -22,10 +22,12 @@ public class Alipay extends CordovaPlugin {
 
 	public static final String ACTION = "alipay";
 	private static final String TAG = "Alipay";
-
+	
+	private CallbackContext mCallbackContext;
 	@Override
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
+		mCallbackContext = callbackContext;
 
 		if (ACTION.equals(action)) {
 			pay(callbackContext , args);
@@ -33,23 +35,6 @@ public class Alipay extends CordovaPlugin {
 		}
 
 		return false;
-	}
-
-	// 返回程序
-	@Override
-	public void onActivityResult(int requestCode, int result, Intent data) {
-		// super.onActivityResult(requestCode, result, data);
-		Log.d(TAG, "income onActivityResult");
-
-		String action = data.getAction();
-		String resultStatus = data.getStringExtra("resultStatus");
-		String memo = data.getStringExtra("memo");
-		String resultString = data.getStringExtra("result");
-		Toast.makeText(
-				this.cordova.getActivity(),
-				"!action = [" + action + "], resultStatus = " + resultStatus
-						+ ", memo = [" + memo + "], result = [" + resultString
-						+ "]", Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -109,10 +94,32 @@ public class Alipay extends CordovaPlugin {
 		intent.setPackage(this.cordova.getActivity().getPackageName());
 		intent.setAction("com.alipay.mobilepay.android");
 		intent.putExtra("order_info", info);
-		// startActivityForResult(intent, 0);
 
 		cordova.startActivityForResult(this, intent, 0);
-		callbackContext.success();
+
+	}
+	
+	// 返回程序
+	@Override
+	public void onActivityResult(int requestCode, int result, Intent data) {
+		super.onActivityResult(requestCode, result, data);
+		Log.d(TAG, "income onActivityResult");
+
+		String action = data.getAction();
+		String resultStatus = data.getStringExtra("resultStatus");
+		String memo = data.getStringExtra("memo");
+		String resultString = data.getStringExtra("result");
+		
+		if(resultStatus != null && resultStatus.equals("9000")){
+			mCallbackContext.success();
+		}else{
+			Toast.makeText(
+					this.cordova.getActivity(),
+					"!action = [" + action + "], resultStatus = " + resultStatus
+							+ ", memo = [" + memo + "], result = [" + resultString
+							+ "]", Toast.LENGTH_LONG).show();
+			mCallbackContext.error(memo);
+		}
 	}
 
 	// 获得订单信息
