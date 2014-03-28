@@ -11,9 +11,14 @@ public class YouDaoApplication extends Application {
 	   
 		public static final String NOTIFY = "";
 		public static final String PARTNER = "2088901482215543";
-//											  2088901482215543
 		public static final String SELLER = "yjp-huitian@163.com";
-//											 2but9ku1z7r1vb0anr1bsdxcoravzoty
+
+		
+		public static final String TENNOTIFY = "http://wap.tenpay.com/tenpay.asp";
+		public static final String TENPARTNER = "1217727101";
+		public static final String TENKEY = "42cc963ece0ce693e50ce7cea502842c";
+		public static final String TENSELLER = "yjp-huitian@163.com";
+
 		// pem
 //		public static final String RSA_PRIVATE = "MIICXAIBAAKBgQDE/tHBBVZFVfq1eYCgkYDguvPID2aeDyGA3dq9eld5OyIoUuBFf54Ue6ztbM6pqwT/G3lHdQR9yHN8iDMyFlG5YZZi5YAM+O/WAHlFaVs/D+22ikX9SgkuhDTIa3oY9Cr0qa/2ac92qSihNe3rZd47m5LwKVzCFbjKOXw0AaGBJwIDAQABAoGAeumvgGrPEEX8PtzHx+fhbNbZInuRgI9aTSifwdei2o5t2pETQ+nDfW5JUH6yV6TQYkgHHPHDUqQOgqYMo3TPme4utAJbbQkgDwHzWkKTeMf+ctC/+zSlt8sQgGTlfYdycQnmA217vCdQHWkm1qFxX4CgDQGIWuJMi624OGhMsQECQQDh8EhKc8YmX+Kk6ITB2AxV6J7xd85KAiGOYn4qRVONndnliM2idyfHDxu/7qejbWmM4MhIUTZYe6aBhuGG2rWnAkEA3zSy/kTE9OAyjTP7gpu2U6CRWctV18XQHyIItedIGjdupJSpFEegRR7+qdbSqtHT+rpCXSIUyn74JL3/N6NIgQJALuEKPthyvreacRkFoqrPNGwFvphbJyP2DnMFNoQX6ARel6+g6xrKGBVcbqB4DALBqcdiBw9CtW1CiRGRbcendQJBAMUUeP79pZI56yi2P1rhNim82toYKaGtbcgvetVycz2CuFTlVi0r2R1u8pjvr29Yef0mPLaTAxyQ43U9tX1g1QECQGya/wOtw0VSS7lvA1JhglCwjhca3CRMULo+u57iP3Rf/C8AQ/8d0G4I9f21Qe04whe6k+jCeroh8qOUK7K8TMY=";
 		// pkcs8
@@ -21,6 +26,7 @@ public class YouDaoApplication extends Application {
 
 		public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC2nnJD5aqWuRVotcsVQE97dXs86I5wqsx0OcSNK9l1u5q+2Hl5fkVblQfM8RW6B66XZ5Wad7Gp0tSY9saIZbxjjFh2mbN2Htyla/oGjJvwPKlL9gdHrs3fFNQL2SzDhXwQte7l8Pf8fIBywkZ+bnfbZICyG0bqJQAIzJZQoe6f4QIDAQAB";
 
+		
 	    @Override
 	    public void onCreate() {
 	    	// Log.d(TAG, "onCreate");

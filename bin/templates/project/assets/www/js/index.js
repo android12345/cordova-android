@@ -141,14 +141,14 @@ function getuuid() {
 
 }
 
-function toast() {
+function toast(msg) {
     cordova.exec(function(winParam) {
-        alert(winParam);
+        // alert(winParam);
         //var i = winParam ;
         //alert(i+"谢谢你") ;
     }, function(error) {
-        alert(error);
-    }, "Messages", "showMsg", ["测试显示消息插件"]);
+        // alert(error);
+    }, "Messages", "showMsg", [msg]);
 
 }
 
@@ -294,10 +294,19 @@ function scan() {
 function alipay(title, body, price, orderno) {
     
     cordova.exec(function(winParam) {
-        // alert(winParam);
+        toast("success = "+ winParam);
+    }, function(error) {
+        toast("error = "+ error);
+    }, "Alipay", "alipay", [title, body, price, orderno]);
+}
+
+function tenpay(title, body, price, orderno) {
+    
+    cordova.exec(function(winParam) {
+        alert(winParam);
         //var i = winParam ;
         //alert(i+"谢谢你") ;
     }, function(error) {
         alert(error);
-    }, "Alipay", "alipay", [title, body, price, orderno]);
+    }, "Tenpay", "tenpay", [title, body, price, orderno]);
 }

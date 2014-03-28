@@ -82,6 +82,8 @@
       
        <!-- 支付宝快捷支付插件 -->
       <plugin name="Alipay" value="com.youdao.dev.plugin.Alipay"/>
+       <!-- 财付通 快捷支付插件 -->
+      <plugin name="Tenpay" value="com.youdao.dev.plugin.Tenpay"/>
       
 </plugins>
 </cordova>
