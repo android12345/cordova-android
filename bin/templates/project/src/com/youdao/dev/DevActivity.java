@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.json.JSONObject;
 import org.apache.cordova.Config;
 import org.apache.cordova.DroidGap;
 
@@ -55,6 +55,9 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.youdao.dev.utils.CommUtils;
 import com.youdao.dev.utils.NetWorkUtils;
+import com.youdao.dev.utils.DeviceUtils;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class DevActivity extends DroidGap implements OnClickListener {
 
@@ -104,9 +107,40 @@ public class DevActivity extends DroidGap implements OnClickListener {
 
 		Intent intent = this.getIntent();
         
-        locationProvider =  new LocationProvider(this) ;
+        // locationProvider =  new LocationProvider(this) ;
         
-        locationProvider.startLocation() ;
+        // locationProvider.startLocation() ;
+
+        Context context = getApplicationContext();
+
+        SharedPreferences pp = getSharedPreferences("push_user", MODE_PRIVATE);
+
+        final String app_id = context.getResources().getString(
+						R.string.app_id);
+		String baiduuserid = pp.getString("user_id", "") ;
+			
+		// Toast.makeText(context, "appid is "+app_id, 0).show() ;
+		BaidupushManager.getInstance().baiduPushSendData(context, app_id,
+				DeviceUtils.getUUID(context), "",
+				CommUtils.getVersionCode(context),
+				CommUtils.getAndroidSDKVersion(),
+				 "",
+				 "",
+				CommUtils.getProvidersName(context),
+				CommUtils.getPhoneBrand(), baiduuserid,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject arg0) {
+						super.onSuccess(arg0);
+						//Log.d("================================= :", arg0.toString());
+					}
+					
+					@Override
+					public void onFailure(Throwable arg0, String arg1) {
+						// TODO Auto-generated method stub
+						super.onFailure(arg0, arg1);
+					}
+				});
 
 		displaySplash();
 
