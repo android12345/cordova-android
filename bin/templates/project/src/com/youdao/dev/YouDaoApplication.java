@@ -9,7 +9,7 @@ import android.app.Application;
 public class YouDaoApplication extends Application {
 	   private static final String TAG = "YouDaoApplication";
 	   
-		public static final String NOTIFY = "";
+		public static final String NOTIFY = "http://www.yydianying.cn/index.php?r=alipay/notifyurl";
 		public static final String PARTNER = "2088901482215543";
 		public static final String SELLER = "yjp-huitian@163.com";
 

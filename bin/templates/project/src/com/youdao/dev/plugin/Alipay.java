@@ -115,9 +115,7 @@ public class Alipay extends CordovaPlugin {
 		}else{
 			Toast.makeText(
 					this.cordova.getActivity(),
-					"!action = [" + action + "], resultStatus = " + resultStatus
-							+ ", memo = [" + memo + "], result = [" + resultString
-							+ "]", Toast.LENGTH_LONG).show();
+					 memo + " = " + resultString, Toast.LENGTH_LONG).show();
 			mCallbackContext.error(memo);
 		}
 	}
