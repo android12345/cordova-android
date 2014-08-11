@@ -153,7 +153,7 @@ public class DevActivity extends DroidGap implements OnClickListener {
 		// 取得JpushReceiver　传过来的附加字段的值
 		String uricontent = intent.getStringExtra("uri");
 		
-		String url = Config.getStartUrl() + (uricontent == null ? "" :"?"+ uricontent);
+		String url = Config.getStartUrl() + (uricontent == null ? "" :"#"+ uricontent);
 		//Log.d(TAG, "推送消息要打开的地址:" + url);
 
 		if (splashId != 0) {// 如果设置了splash，这里就设置spalsh运行时间，没有则不设置
